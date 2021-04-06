@@ -1,0 +1,93 @@
+<html>
+    <head>
+<!--<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+    crossorigin="anonymous">-->
+<link rel="stylesheet" type="text/css" href="/css/SignUpIn.css">
+</head>
+<body>
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form action="http://127.0.0.1:8081/SignUp" method="post">
+            <h1>Create Account</h1>
+			</br>
+            <!--    <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>-->
+            <input type="text" name="username" id="username" placeholder="Roll Number" />
+            <input type="email" name="email" id="email" placeholder="Email" />
+            <input type="password" name="password" id="password" placeholder="Password" />
+            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" />
+            <button>Sign Up</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form action="http://127.0.0.1:8081/SignIn" method="post">
+            <h1>Sign in</h1>
+			</br>
+            <!--    <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>-->
+            <input type="text" name="username" id="username" placeholder="Roll Number" />
+            <input type="password" name="password" id="password" placeholder="Password" />
+            <a href="#">Forgot your password?</a>
+            <button>Sign In</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Welcome Back!</h1>
+                <p>Keep in touch by logining in with your personal info</p>
+                <button class="ghost" id="signIn">Sign In</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hello!</h1>
+                <p>What are you waiting for? Enter in by registering yourself</p>
+                <button class="ghost" id="signUp">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="quote" id="quote">
+	<h1>"Nothing is impossible, the word itself says I'm possible!"</h1>
+	<p class="author" id="author" style="text-align:right">-Audrey Hepburn</p>
+</div>
+<!--<div class="footer">
+<b>	Follow us on </b>
+	<div class="icons">
+		<a href="https://github.com/kvaibhav01" target="_blank" class="social"><i class="fab fa-github"></i></a>
+		<a href="https://www.instagram.com/vaibhavkhulbe143/" target="_blank" class="social"><i class="fab fa-instagram"></i></a>
+		<a href="https://medium.com/@vaibhavkhulbe" target="_blank" class="social"><i class="fab fa-medium"></i></a>
+		<a href="https://twitter.com/vaibhav_khulbe" target="_blank" class="social"><i class="fab fa-twitter-square"></i></a>
+		<a href="https://linkedin.com/in/vaibhav-khulbe/" target="_blank" class="social"><i class="fab fa-linkedin"></i></a>
+		</div>
+	</div>-->
+<p id="user"><%=n%></p>
+<script src="/js/ChangeSignIn.js"></script>
+<script>
+    if(document.getElementById('user').innerHTML=='1')
+    {
+        alert("SignUp Successful");
+    }
+    else if(document.getElementById('user').innerHTML=='2')
+    {
+        alert("SignOut Successful");
+    }
+    else if(document.getElementById('user').innerHTML=='3')
+    {
+        alert("SignIn Unsuccessful");
+    }
+    else if(document.getElementById('user').innerHTML=='4')
+    {
+        alert("SignUp Unsuccessful");
+    }
+</script>
+</body>
+</html>
