@@ -17,10 +17,10 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registration</span>-->
-            <input type="text" name="username" id="username" placeholder="Roll Number" />
-            <input type="email" name="email" id="email" placeholder="Email" />
-            <input type="password" name="password" id="password" placeholder="Password" />
-            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" />
+            <input type="text" name="username" id="username" placeholder="Roll Number" required/>
+            <input type="email" name="email" id="email" placeholder="Email" required/>
+            <input type="password" name="password" id="password" placeholder="Password" required/>
+            <input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" required/>
             <button>Sign Up</button>
         </form>
     </div>
@@ -34,11 +34,12 @@
                     <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your account</span>-->
-            <input type="text" name="username" id="username" placeholder="Roll Number" />
-            <input type="password" name="password" id="password" placeholder="Password" />
-            <a href="#">Forgot your password?</a>
+            <input type="text" name="username1" id="username1" placeholder="Roll Number" required/>
+            <input type="password" name="password1" id="password1" placeholder="Password" required/>
+            <a onclick="document.getElementById('myform1').submit();">Forgot your password?</a>
             <button>Sign In</button>
         </form>
+        <form id="myform1" method="post" action="http://127.0.0.1:8081/forgot"></form>
     </div>
     <div class="overlay-container">
         <div class="overlay">
@@ -87,6 +88,18 @@
     else if(document.getElementById('user').innerHTML=='4')
     {
         alert("SignUp Unsuccessful");
+    }
+    else if(document.getElementById('user').innerHTML=='5')
+    {
+        alert("Password Change Successful");
+    }
+    else if(document.getElementById('user').innerHTML=='6')
+    {
+        alert("User does not exist");
+    }
+    else if(document.getElementById('user').innerHTML=='7')
+    {
+        alert("Password Change Unsuccessful");
     }
 </script>
 </body>
