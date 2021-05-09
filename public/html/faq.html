@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+  <meta charset="utf-8">
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+  <title>Felix</title>
+
+  <link rel="stylesheet" media="screen" href="https://cpwebassets.codepen.io/assets/fullpage/fullpage-4de243a40619a967c0bf13b95e1ac6f8de89d943b7fc8710de33f681fe287604.css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&display=swap" rel="stylesheet" />
+
+  
+<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png" />
+<meta name="apple-mobile-web-app-title" content="CodePen">
+
+<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico" />
+
+<link rel="mask-icon" type="" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111" />
+
+
+
+
+  <title>Felix</title>
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage("resize", "*");
+  }
+</script>
+
+
+  <style>
+    html { font-size: 15px; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body { height:100%; display: flex; flex-direction: column; }
+    .referer-warning {
+      background: black;
+      box-shadow: 0 2px 5px rgba(0,0,0, 0.5);
+      padding: 0.75em;
+      color: white;
+      text-align: center;
+      font-family: 'Lato', 'Lucida Grande', 'Lucida Sans Unicode', Tahoma, Sans-Serif;
+      line-height: 1.2;
+      font-size: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    .referer-warning h1 { font-size: 1.2rem; margin: 0; }
+    .referer-warning a { color: #56bcf9; } /* $linkColorOnBlack */
+  </style>
+</head>
+
+<body class="">
+
+  </div>
+
+  <div id="result-iframe-wrap" role="main">
+
+    <iframe
+      id="result"
+      srcdoc="
+<!DOCTYPE html>
+<html lang=&quot;en&quot; >
+
+<head>
+
+  <meta charset=&quot;UTF-8&quot;>
+  
+<link rel=&quot;apple-touch-icon&quot; type=&quot;image/png&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png&quot; />
+<meta name=&quot;apple-mobile-web-app-title&quot; content=&quot;CodePen&quot;>
+
+<link rel=&quot;shortcut icon&quot; type=&quot;image/x-icon&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico&quot; />
+
+<link rel=&quot;mask-icon&quot; type=&quot;&quot; href=&quot;https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg&quot; color=&quot;#111&quot; />
+
+
+  <title>Felix</title>
+  
+  
+  <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.5.0/css/all.css'>
+<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://codepen.io/PerpetualJ/pen/ExxvbPQ'>
+<link rel='stylesheet' href='https://s3-us-west-2.amazonaws.com/s.cdpn.io/2940219/PerpetualJ.css'>
+  
+<style>
+/* Felix */
+.personal-assistant {
+	position: relative;
+	margin-top: 100px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+}
+.felix {
+	position: absolute;
+	bottom: 50px;
+	width: 110px;
+	height: 95px;
+	border-radius: 45%;
+	border: 3px solid #fff;
+	box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+	animation: breathe-and-jump 3s linear infinite;
+	cursor: pointer;
+	z-index: 1;
+}
+.felix::before {
+	content: '';
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	width: calc(100% + 3px);
+	height: calc(100% + 2px);
+	background-color: #18c;
+	background: linear-gradient(to bottom, #5fc, #1a8);
+	background: -webkit-linear-gradient(to bottom, #5cf, #18c);
+	border-radius: 45%;
+	opacity: 0;
+	transition: 0.3s linear all;
+}
+.felix > .eyes { position: relative; }
+.felix > .eyes > .eye {
+	position: absolute;
+	top: 20px;
+	width: 20px;
+	height: 25px;
+	border-radius: 15px;
+	background-color: #fff;
+	box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
+	animation: blink 5s linear infinite;
+}
+.felix > .eyes > .eye.left { left: 25%; }
+.felix > .eyes > .eye.right { right: 25%; }
+
+/* Platforms */
+.platform {
+	transform: rotateX(70deg);
+	width: 100px;
+	height: 100px;
+	box-shadow: 0 0 100px #fff,
+		         0 0 15px #fff inset;
+	animation: jump-pulse 3s linear infinite;
+}
+.platform,
+.command-list > li::before {
+	border-radius: 50%;
+	transition: 0.2s linear all;
+}
+.command-list > li::before {
+	content: '';
+	position: absolute;
+	bottom: -35px;
+	left: 50%;
+	width: 65px;
+	height: 65px;
+	transform: translate(-50%) rotateX(70deg);
+	box-shadow: 0 0 50px #fff,
+		         0 0 15px #fff inset;
+}
+
+/* Hover */
+.felix:not(.active):hover {
+	animation: shake-to-alert 0.5s linear;
+	height: 105px;
+	transform: translateY(-4px);
+}
+.felix:not(.active):hover,
+.felix:not(.active):hover > .eyes > .eye {
+	border-color: #fc5;
+	box-shadow: 0 0 5px #fc5;
+}
+.felix:not(.active):hover + .platform {
+	box-shadow: 0 0 100px #fc5,
+		         0 0 15px #fc5 inset;
+	animation: shake-pulse 0.5s linear;
+}
+
+/* Awaiting Command */
+.felix.active { animation: bounce-then-breathe 5s linear infinite; }
+.felix.active::before { opacity: 1; }
+.felix.active,
+.felix.active > .eyes > .eye {
+	border-color: #5fc;
+	box-shadow: 0 0 5px #5fc;
+}
+.felix.active + .platform {
+	box-shadow: 0 0 100px #5fc,
+		         0 0 25px #5fc inset;
+	animation: bounce-pulse 5s linear;
+}
+
+/* Deactivation */
+.felix.inactive {
+	animation: deactivate 0.75s linear,
+				  breathe-and-jump 3s linear infinite;
+}
+.felix.inactive + .platform {
+	animation: deactivate-platform 0.75s linear;
+}
+
+/* Command List */
+.command-list {
+	position: absolute;
+	bottom: 35px;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	z-index: 0;
+}
+.command-list > li {
+	display: none;
+	width: 45px;
+	height: 45px;
+	line-height: 37px;
+	font-size: 25px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	box-shadow: 0 0 5px #fff;
+	margin: 10px 12px;
+	cursor: pointer;
+	opacity: 0;
+}
+.felix.active ~ .command-list > li {
+	display: inline-block;
+	animation: fade-in 1s linear forwards;
+}
+.command-list > li:hover {
+	border-color: #5cf;
+	box-shadow: 0 0 5px #5cf;
+}
+.command-list > li:hover::before {
+	box-shadow: 0 0 50px #5cf,
+		         0 0 15px #5cf inset;
+}
+.command-list > li:hover > i { color: #5cf; }
+.command-list > li:nth-child(1) { transform: translateX(100px) translateY(45px); }
+.command-list > li:nth-child(1):hover ~ .hey-felix::after { content: &quot;Hey Felix, I did apply for an OD and got approved but I am sick now can I apply a ml?&quot;; }
+.command-list > li:nth-child(2) { transform: translateX(-15px) translateY(-15px); }
+.command-list > li:nth-child(2):hover ~ .hey-felix::after { content: &quot;Hey Felix, I didn't get my leave request approved yet, what can I do?&quot;; }
+.command-list > li:nth-child(3) { transform: translateX(-35px) translateY(-55px); }
+.command-list > li:nth-child(3):hover ~ .hey-felix::after { content: &quot;Hey Felix, I don't want to use my leave can I cancel?&quot;; }
+.command-list > li:nth-child(4) { transform: translateX(35px) translateY(-55px); }
+.command-list > li:nth-child(4):hover ~ .hey-felix::after { content: &quot;Hey Felix, tell me a joke.&quot;; }
+.command-list > li:nth-child(5) { transform: translateX(15px) translateY(-15px); }
+.command-list > li:nth-child(5):hover ~ .hey-felix::after { content: &quot;Hey Felix, open google&quot;; }
+.command-list > li:nth-child(6) { transform: translateX(-100px) translateY(45px); }
+.command-list > li:nth-child(6):hover ~ .hey-felix::after { content: &quot;Hey Felix, what inspires you?&quot;; }
+
+/* Hey Felix */
+.hey-felix {
+	position: relative;
+	transform: translateY(50px);
+	margin: 0;
+}
+.hey-felix::after {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	white-space: nowrap;
+	background-color: #fffa;
+}
+
+/* Response */
+.response-frame {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	background-color: #000c;
+	z-index: -1;
+	opacity: 0;
+}
+.response-frame.active {
+	z-index: 1000;
+	opacity: 1;
+}
+.response-frame > .lead {
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+	background-color: #fff;
+	color: #333;
+}
+.response-frame > .fas {
+	width: 50px;
+	height: 50px;
+	font-size: 25px;
+	line-height: 45px;
+	border: 2px solid #fff;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 10px #fff, 0 0 5px #fff inset;
+	transition: 0.3s linear all;
+}
+.response-frame > .fas:hover {
+	border: 2px solid #f55;
+	box-shadow: 0 0 15px #f55, 0 0 5px #f55 inset;
+	color: #f55;
+}
+
+/* Animations */
+@keyframes fade-in {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes breathe {
+	0%, 100% {
+		height: 95px;
+		transform: translateY(0);
+	}
+	50% {
+		height: 100px;
+		transform: translateY(-5px);
+	}
+}
+@keyframes bounce-then-breathe {
+	0%, 5%, 10%, 15% { transform: translateY(0); }
+	2.5%, 7.5%, 12.5% { transform: translateY(-15px); }
+	20%, 40%, 60%, 80%, 100% {
+		height: 95px;
+		transform: translateY(0);
+	}
+	30%, 50%, 70%, 90% {
+		height: 100px;
+		transform: translateY(-5px);
+	}
+}
+@keyframes shake-pulse {
+	0%, 20%, 40%, 60%, 80%, 100% { box-shadow: 0 0 100px #fc5, 0 0 15px #fc5 inset; }
+	10%, 25%, 35%, 50%, 65% { box-shadow: 0 0 115px #fc5, 0 0 15px #fc5 inset; }
+	15%, 30%, 45%, 55%, 70% { box-shadow: 0 0 95px #fc5, 0 0 15px #fc5 inset; }
+}
+@keyframes bounce-pulse {
+	0%, 5%, 10%, 15% { box-shadow: 0 0 30px #5fc, 0 0 45px #5fc inset; }
+	2.5%, 7.5%, 12.5% { box-shadow: 0 0 100px #5fc, 0 0 15px #5fc inset; }
+	20%, 40%, 60%, 80%, 100% { box-shadow: 0 0 30px #5fc, 0 0 45px #5fc inset; }
+	30%, 50%, 70%, 90% { box-shadow: 0 0 70px #5fc, 0 0 25px #5fc inset; }
+}
+@keyframes jump-pulse {
+	0%, 40%, 80%, 100% {
+		box-shadow: 0 0 30px #fff,
+		         	0 0 45px #fff inset;
+	}
+	20%, 60%, 70%, 90% {
+		box-shadow: 0 0 70px #fff,
+		         	0 0 25px #fff inset;
+	}
+	85% {
+		box-shadow: 0 0 100px #fff,
+		         	0 0 15px #fff inset;
+	}
+}
+@keyframes breathe-and-jump {
+	0%, 40%, 80%, 100% { height: 95px; transform: translateY(0); }
+	20%, 60%, 70%, 90% { height: 100px; transform: translateY(-5px); }
+	85% { height: 85px; transform: translateY(-20px); }
+}
+@keyframes shake-to-alert {
+	0%, 20%, 40%, 60%, 80%, 100% { transform: rotate(0) translateY(-5px); }
+	10%, 25%, 35%, 50%, 65% { transform: rotate(5deg) translateY(-5px); }
+	15%, 30%, 45%, 55%, 70% { transform: roate(-5deg) translateY(-5px); }
+}
+@keyframes blink {
+	0%, 100% { transform: scale(1, 0.05); }
+	5%, 95% { transform: scale(1, 1); }
+}
+@keyframes deactivate {
+	0% { border-color: #5fc; }
+	20%, 60% { border-color: #f55; }
+	40%, 80%, 100% { border-color: #fff; }
+}
+@keyframes deactivate-platform {
+	0% { box-shadow: 0 0 100px #5fc, 0 0 15px #5fc inset; }
+	40%, 80%, 100% { box-shadow: 0 0 15px #fff, 0 0 15px #fff inset; }
+	20%, 60% { box-shadow: 0 0 100px #f55, 0 0 15px #f55 inset; }
+}
+
+/* Template Overrides */
+html, body {
+	background: #024;
+	background: -webkit-linear-gradient(to right, #024, #47f);
+	background: linear-gradient(to right, #dc143c, #ff4b2b);
+}
+.primary-content {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.display-3 { font-family: 'Sarpanch' !important; }
+.lead { font-family: 'Quicksand' !important; }
+* { user-select: none; }
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+  
+  
+  <script>
+  if (document.location.search.match(/type=embed/gi)) {
+    window.parent.postMessage(&quot;resize&quot;, &quot;*&quot;);
+  }
+</script>
+
+
+</head>
+
+<body translate=&quot;no&quot; >
+  <div id=&quot;primary-content&quot; class=&quot;primary-content&quot;>
+	<h1 class=&quot;display-3&quot;>Hello there!</h1>
+	<p class=&quot;lead&quot;>Meet Felix, your new personal assistant with an outstanding personality!</p>
+	<div class=&quot;personal-assistant&quot;>
+		<div id=&quot;felix&quot; class=&quot;felix&quot; onclick=&quot;activateFelix();&quot;>
+			<div class=&quot;eyes&quot;>
+				<div class=&quot;eye left&quot;></div>
+				<div class=&quot;eye right&quot;></div>
+			</div>
+		</div>
+		<div class=&quot;platform&quot;></div>
+		<ul class=&quot;command-list&quot;>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;getWeather();&quot;>1</i></li>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;getTime();&quot;>2</i></li>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;getDate();&quot;>3</i></li>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;tellJoke();&quot;>4</i></li>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;searchGoogle();&quot;>5</i></li>
+			<li><i class=&quot;far fa-stack-1x calendar-text&quot; onclick=&quot;showInspiration();&quot;>6</i></li>
+			<p class=&quot;hey-felix lead&quot;></p>
+		</ul>
+	</div>
+	<div id=&quot;response-frame&quot; class=&quot;response-frame&quot;>
+		<p id=&quot;response-message&quot; class=&quot;lead&quot;></p>
+		<i class=&quot;fas fa-times&quot; onclick=&quot;closeResponse();&quot;></i>
+	</div>
+</div>
+    <script src=&quot;https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-157cd5b220a5c80d4ff8e0e70ac069bffd87a61252088146915e8726e5d9f147.js&quot;></script>
+
+  <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'></script>
+      <script id=&quot;rendered-js&quot; >
+// Constants
+const ACTIVE_TIME_MS = 5000;
+const DEACTIVATION_TIME_MS = 750;
+
+// Variables
+var felix = document.getElementById(&quot;felix&quot;);
+var responseFrame = document.getElementById(&quot;response-frame&quot;);
+var responseMessage = document.getElementById(&quot;response-message&quot;);
+var userMadeDecision = false;
+var jokes = [
+'I ate a clock yesterday, it was very time-consuming.',
+'A perfectionist walked into a bar…apparently, the bar wasn’t set high enough.',
+'Employee of the month is a good example of how somebody can be both a winner and a loser at the same time.',
+'I don’t have a girlfriend, but I know a girl that would get really mad if she heard me say that.',
+'Relationships are great, but have you ever had stuffed crust pizza?',
+'The worst time to have a heart attack is during a game of charades.',
+'My therapist says I have a preoccupation with vengeance. We’ll see about that.',
+'I have a friend. He keeps trying to convince me he’s a compulsive liar, but I don’t believe him.'];
+
+
+// Activate felix and set timeout for awaiting a command.
+function activateFelix() {
+  userMadeDecision = false;
+  felix.classList.remove(&quot;inactive&quot;);
+  felix.classList.add(&quot;active&quot;);
+  setTimeout(function () {
+    if (!userMadeDecision) {
+      felix.classList.remove(&quot;active&quot;);
+      felix.classList.add(&quot;inactive&quot;);
+      setTimeout(function () {
+        felix.classList.remove(&quot;inactive&quot;);
+      }, 750);
+    }
+  }, 5000);
+}
+function deactivateFelix() {
+  userMadeDecision = true;
+  felix.classList.remove(&quot;active&quot;);
+  felix.classList.add(&quot;inactive&quot;);
+  setTimeout(function () {
+    felix.classList.remove(&quot;inactive&quot;);
+  }, 750);
+}
+function getWeather() {
+  responseMessage.innerText = &quot;Yes, you can apply by providing the required documents.&quot;;
+  showResponse();
+}
+function getTime() {
+  var today = new Date();
+  var time = today.getHours() + &quot;:&quot; + today.getMinutes();
+  responseMessage.innerText = &quot;Perhaps it's time for you to become flash. I'm just kidding. Just approach your class advisor, they will look into it.&quot;;
+  showResponse();
+}
+function getDate() {
+  var today = new Date();
+  var date = today.getMonth() + '/' + today.getDate() + '/' + today.getFullYear();
+  responseMessage.innerText = &quot;You can cancel the request even if it is approved until you don't use it.&quot;;
+  showResponse();
+}
+function tellJoke() {
+  var index = Math.floor(Math.random() * jokes.length - 1);
+  responseMessage.innerText = jokes[index];
+  showResponse();
+}
+function searchGoogle() {
+  deactivateFelix();
+  window.open(&quot;https://www.google.com/&quot;, &quot;_blank&quot;);
+}
+function showInspiration() {
+  deactivateFelix();
+  window.open(&quot;https://dribbble.com/shots/5473987-AI-Robot&quot;, &quot;_blank&quot;);
+}
+function showResponse() {
+  responseFrame.classList.add(&quot;active&quot;);
+  deactivateFelix();
+}
+function closeResponse() {responseFrame.classList.remove(&quot;active&quot;);}
+//# sourceURL=pen.js
+    </script>
+
+  
+
+</body>
+
+</html>
+ 
+"
+      sandbox="allow-downloads allow-forms allow-modals allow-pointer-lock allow-popups allow-presentation  allow-scripts allow-top-navigation-by-user-activation" allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; microphone; midi" allowTransparency="true"
+      allowpaymentrequest="true" allowfullscreen="true" class="result-iframe">
+      </iframe>
+
+  </div>
+</body>
+</html>

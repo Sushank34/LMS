@@ -1,0 +1,55 @@
+.head {
+    height:50px;
+    background:#00303f;
+    text-align: center;
+    font-size: 30px;
+    color:white;
+    font-family:monospace;
+    position:relative;
+}
+.messages {
+    top:50px;
+    position:relative;
+    z-index:-1;
+    bottom:40px;
+    margin-bottom:100px;
+}
+.txt1 {
+    background:#c9e1be;
+    padding:7px;
+    position:relative;
+    width:80%;
+    border-right: 2px solid #00303f;
+    float:right;
+}
+.txt2 {
+    background:#A1E7ED;
+    padding:7px;
+    position:relative;
+    width:80%;
+    border-left: 2px solid #0c757e;
+    float:left;
+}
+.queryarea2 {
+    width:100%;
+    position:fixed;
+    bottom:0px;
+    margin-right:10px;
+    background:white;
+    display:inline-flex;
+  }
+.querymessage2 {
+    width:100%;
+    padding:5px;
+    margin:5px;
+    color:#00303f;
+    font-weight:bold;
+}
+.btn2 {
+    color:silver;
+    background:#00303f;
+    width:70px;
+    margin:5px;
+    height:40px;
+
+}

@@ -1,0 +1,71 @@
+body {
+  font-family: Roboto, Helvetica, Lucida Grande, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: #3D3F4D;
+}
+
+.tabsDynamicHeight md-content {
+  background-color: transparent !important;
+   
+}
+
+.tabsDynamicHeight md-content md-tabs {
+  background: #f6f6f6;
+  border: 1px solid #e1e1e1;
+  
+}
+
+.tabsDynamicHeight md-content md-tabs md-tabs-canvas {
+  background: white;
+  
+}
+
+.tabsDynamicHeight md-content h1:first-child {
+  margin-top: 0;
+}
+
+.user-face-profile {
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 68px;
+  height: 68px;
+  margin: 0px;
+}
+
+.listdemoListControls md-divider {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.md-toolbar-tools {
+   background: #B0BEC5;
+   color: #FFFFFF;
+   margin-left: 31px;
+}
+
+fieldset.standard {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.md-warn-account {
+  font-family: 'Roboto';
+  font-weight: normal;
+  color: #F44336;
+}
+h3.profile {
+  color: #757575;
+}
+
+fieldset.standard {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #F44336;
+}
+
+fieldset.standard-2 {
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent;
+}
+

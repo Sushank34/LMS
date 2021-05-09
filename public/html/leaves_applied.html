@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>Leaves applied</title>
+        <link rel="stylesheet" type="text/css" href="../css/leaves_applied.css">
+    </head>
+    <body name="body" id="body">
+        <div>
+            <div class="img" id="img">
+                <button href="#" style="position:absolute; height:50px;width:70px;border-color:crimson;background-color: #ffdddd;color: black;right:10px;border-radius: 15px;" class="previous round" onclick="goBack()">Home</button>
+                <img name="icon1" id="icon1" src="../images/logoamrita.jpg"/>
+            </div>
+            <form action="http://127.0.0.1:8081/OTPSend" method="post">
+                <table border="0" align="left" cellpadding="10" cellspacing="0" valign="middle" style="margin-top:40px; margin-left:140px; max-width:400px;background:#fff; border-radius:25px; text-align:left;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:12%;padding-left:5%;">
+                <br>
+                    <br>
+                        <tr>
+                            <td style="height:40px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left">
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> From Date : </label></td>
+                                <td><p type="date" class="inputtext" id="From Date" name="From Date" placeholder="From Date" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">12/01/2021</p>
+                            </td>											
+                        </tr>
+                        <tr>
+                            <td align="left">			
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> From Time : </label></td>
+                                <td><p type="time" class="inputtext" id="From Time" name="From Time" placeholder="From Time" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">12:34</p>
+                            </td>							
+                        </tr>
+                        <tr>
+                            <td align="left">						
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> To Date : </label>
+                            </td>
+                            <td><p type="date" id="To Date" class="inputtext" name="To Date" placeholder="To Date" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">13/01/2021</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">			
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> To Time : </label>
+                            </td>
+                            <td>
+                                <p type="time" class="inputtext" id="To Time" name="To Time" placeholder="To Time" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">12:34</p>
+                            </td>						
+                        </tr>
+                        <tr>
+                            <td align="left">								
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Event Type : </label>
+                            </td>
+                            <td>
+                                <p type="text" id="Event Type" class="inputtext" name="Event Type" placeholder="Event Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">ICPC</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">								
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Participation Type : </label>
+                            </td>
+                            <td>
+                                <p type="text" id="Participation Type" class="inputtext" name="Participation Type" placeholder="Participation Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">Participant</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="left">								
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Award : </label>
+                            </td>
+                            <td>
+                                <p type="text" class="inputtext" id="Award" name="Award" placeholder="Award" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">Participation</p>
+                            </td>                                
+                        </tr>
+                        <tr>
+                            <td><a href="javascript:void(0);" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Approve</a></td>
+                        </tr>
+                        <tr>
+                            <td style="height:40px;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </body>
+    <script src="../js/goback.js"></script>
+</html>

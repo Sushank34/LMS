@@ -1,3 +1,9 @@
+//var express = require('express');
+var bodyParser = require('body-parser');
+//var mysql = require('mysql');
+var path = require('path');
+var http = require('http');
+//var fs = require('fs');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -6,14 +12,14 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "";
+var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 
 app.use(fileUpload());
 
 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: true })
 app.set('view engine','ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -116,7 +122,7 @@ app.post('/OD1', urlencodedParser, function (req, res) {
   MongoClient.connect(url, function(err, db) {
     //if (err) throw err;
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+    var myobj = { Name: name, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
       res.render('home2',{n:name,x:1});
@@ -135,7 +141,7 @@ app.post('/OL1', urlencodedParser, function (req, res) {
   MongoClient.connect(url, function(err, db) {
     //if (err) throw err;
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType:"OL", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Reason: req.body.Reason };
+    var myobj = { Name: name, LeaveType:"OL", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Reason: req.body.Reason };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
       res.render('home2',{n:name,x:1});
@@ -154,7 +160,7 @@ app.post('/ML1', urlencodedParser, function (req, res) {
   MongoClient.connect(url, function(err, db) {
     //if (err) throw err;
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+    var myobj = { Name: name, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
       //res.render('home2',{n:name,x:1});
@@ -255,6 +261,19 @@ app.post('/OTPconfirm', function (req, res) {
   {
     res.render('SignUpIn',{n:7});
   }
+})
+
+app.post('/Leaves_applied', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = { Faculty: name };
+    console.log(myquery);
+    dbo.collection("leave").find(myquery).toArray(function(err, result) {
+      console.log(result[0]);
+      res.render('leaves_applied',{len:result.length,leaves:result})
+      console.log("length of data:"+result.length);
+    });
+  });
 })
 
 var server = app.listen(8081, function () {});

@@ -1,0 +1,24 @@
+<link rel="stylesheet" type="text/css" href="../css/queries_student.css">
+<html>
+    <title>Query Manager</title>
+    <div class="head">
+        <span>Ask your queries</span>
+    </div>
+    <div class="messages">
+        <% for(var i = 0; i < len; i++) { %>
+            <% if(var Query[i].User=="query manager") { %>
+            <p class="txt1"><%= leaves[i].Message %></p>
+            <% } %>
+            <% else { %>
+            <p class="txt2"><%= leaves[i].Message %></p>
+            <% } %>
+    </div>
+    <% } %>
+    <div class="queryarea">
+        <form action="http://127.0.0.1:8081/query_send" method="post">
+            <textarea style="position:relative;width:93%;padding:5px;top:430px;left:7px;margin:5px;color:#00303f;font-weight:bold;" class="querymessage" rows="3"></textarea>
+            <button style="position:relative;color:silver;background:#00303f;top:400px;left:7px;width:70px;margin:5px;height:40px;" type="button" class="btn" value="SEND">SEND</button>
+        </form>
+    </div>
+</html>
+<script src="../js/queries_student.js"></script>
