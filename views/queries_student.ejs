@@ -6,19 +6,17 @@
     </div>
     <div class="messages">
         <% for(var i = 0; i < len; i++) { %>
-            <% if(var Query[i].User=="query manager") { %>
-            <p class="txt1"><%= leaves[i].Message %></p>
-            <% } %>
-            <% else { %>
-            <p class="txt2"><%= leaves[i].Message %></p>
+            <% if(Query[i].UserName=="query manager") { %>
+            <p class="txt2"><%= Query[i] %></p>
+            <% } else { %>
+            <p class="txt1"><%= Query[i] %></p>
             <% } %>
     </div>
     <% } %>
     <div class="queryarea">
         <form action="http://127.0.0.1:8081/query_send" method="post">
-            <textarea style="position:relative;width:93%;padding:5px;top:430px;left:7px;margin:5px;color:#00303f;font-weight:bold;" class="querymessage" rows="3"></textarea>
-            <button style="position:relative;color:silver;background:#00303f;top:400px;left:7px;width:70px;margin:5px;height:40px;" type="button" class="btn" value="SEND">SEND</button>
+            <textarea style="position:relative;width:93%;padding:5px;top:430px;left:7px;margin:5px;color:#00303f;font-weight:bold;" class="querymessage" name="querymessage" rows="3"></textarea>
+            <button style="position:relative;color:silver;background:#00303f;top:400px;left:7px;width:70px;margin:5px;height:40px;" class="btn">SEND</button>
         </form>
     </div>
 </html>
-<script src="../js/queries_student.js"></script>

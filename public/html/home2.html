@@ -2,13 +2,19 @@
     <header>
       <div class="logo"><h1>LMS</h1></div>
       <div class="toggle"></div>
+      <div class="search-container">
+        <form action="http://127.0.0.1:8081/search" method="post">
+          <input type="text" id="mySearch" class="search-input" onkeyup="myFunction()" placeholder="Search.." title="Type in a category">
+          <button class="search-button"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
       <div class="navigation">
         <ul>
           <li><a href="#home">Home</a></li>
-          <li><a href="/html/Profile_uneditable.html">Profile</a></li>
+          <li><a href="/html/Profile.html">Profile</a></li>
           <li><a href="/html/od.html">Apply Leave</a></li>
           <li><a href="/views/leaves_applied.ejs">Leaves applied</a></li>
-          <li><a href="/html/queries.html">Queries</a></li>
+          <li><a href="/html/queries_student.html">Queries</a></li>
           <li><a href="/html/faq.html">Faq (Felix-a query bot)</a></li>
           <li><a href="#contact">Miscellanous</a></li>
         </ul>

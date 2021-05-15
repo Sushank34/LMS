@@ -1,39 +1,41 @@
-<link rel="stylesheet" type="text/css" href="../css/Profile.css">
+<link rel="stylesheet" type="text/css" href="/css/Profile.css">
 <body style="background: linear-gradient(to right, #ff4b2b, #ff416c) no-repeat 0 0 / cover;">
    <button href="#" style="position:absolute; height:70px;width:60px;background-color:#c8dd7e; color: black; font-size:30px; left:0px;top:0px; border-radius: 0px 0px 30px 0px;" class="previous round" onclick="goBack()">&#8249;</button>
-   <button href="#" style="position:absolute; height:50px;width:70px; font-weight: bold; border-color:crimson;background-color: #c8dd7e; color: black;right:40px;top:10px;border-radius: 15px;" class="previous round" onclick="goBack()">Edit</button>
+   <form action="http://127.0.0.1:8081/profileChange" method="post">
+   <button style="position:absolute; height:50px;width:70px; font-weight: bold; border-color:crimson;background-color: #c8dd7e; color: black;right:40px;top:10px;border-radius: 15px;" >Edit</button>
+   </form>>
    <div class="pCard_card">
       <div class="pCard_up">
          <div class="pCard_text" name="pCard_text" id="pCard_text">
-            <h2 style="color:black;">Sushank</h2>
-            <p style="color:black">cb.en.u4cse18134</p>
+            <h2 style="color:black;"><%=profile[0].FirstName%></h2>
+            <p style="color:black"><%=profile[0].UserName%></p>
          </div>
          <button class="collapsible" name="collapsible" id="collapsible"><i class="fa fa-plus"></i></button>
          <div class="content">
             <table>
                <tr style="line-height: 3;">
                   <td align="left"><label>Username:</label></td>
-                  <td><p>cb.en.u4cse18134</p></td>
+                  <td><p><%=profile[0].UserName%></p></td>
                </tr>
                <tr style="line-height: 3;">
                   <td align="left" style="white-space: nowrap ;"><label>First Name:</label></td>
-                  <td><p>Sushank</p></td>
+                  <td><p><%=profile[0].FirstName%></p></td>
                </tr>
                <tr style="line-height: 3;">
                   <td align="left"><label>Last Name:</label></td>
-                  <td><p>Sakthivel Nagarajan</p></td>
+                  <td><p><%=profile[0].LastName%></p></td>
                </tr>
                <tr style="line-height: 3;">
                   <td align="left" style="white-space: nowrap ;"><label>Phone number:</label></td>
-                  <td><p>9133227460</p></td>
+                  <td><p><%=profile[0].Phone%></p></td>
                </tr>
                <tr style="line-height: 3;">
                   <td align="left"><label>Address:</label></td>
-                  <td><p style="line-height: 1;">8 GM Nagar, Bypass road, Ukkadam, Coimbatore, Tamil Nadu - 641001</p></td>
+                  <td><p style="line-height: 1;"><%=profile[0].Address%></p></td>
                </tr>
                <tr style="line-height: 3;">
                   <td align="left"><label>Health Bio:</label></td>
-                  <td><p>I am a healthy person</p></td>
+                  <td><p><%=profile[0].HealthBio%></p></td>
                </tr>
             </table>
          </div>
@@ -41,20 +43,20 @@
       <div class="pCard_down">
          <div>
             <p>Department</p>
-            <p>CSE</p>
+            <p><%=profile[0].Department%></p>
          </div>
          <div>
             <p>Section</p>
-            <p>B</p>
+            <p><%=profile[0].Section%></p>
          </div>
          <div>
             <p>Advisor</p>
-            <p style="white-space: nowrap ;">Dr.Padmavathi S</p>
+            <p style="white-space: nowrap ;"><%=profile[0].Adviser%></p>
          </div>
       </div>
       <div class="pCard_back">   
       </div>
    </div>
 </body>
-<script src="../js/Profile.js"></script>
-<script src="../js/goback.js"></script>
+<script src="/js/Profile.js"></script>
+<script src="/js/goback.js"></script>
