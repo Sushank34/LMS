@@ -38,11 +38,17 @@
             <input type="password" name="password1" id="password1" placeholder="Password" required/>
             <a onclick="document.getElementById('myform1').submit();">Forgot your password?</a>
             <button>Sign In</button>
-            <% if(count>0) { %>
+            <% if(count>0 && count<5) { %>
             </br>
             <div class="alert">
                 <span class="closebtn">&times;</span>  
                 <strong>Alert!</strong> Check the password.
+            </div>
+            <% } else if(count!=0){%>
+            </br>
+            <div class="alert">
+                <span class="closebtn">&times;</span>
+                <strong>Limit Exceeded!</strong> Verify yourself by entering your credentials properly and your account will be free to use again.
             </div>
             <% } %>
         </form>

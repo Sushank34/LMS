@@ -41,10 +41,17 @@
          </div>
       </div>
       <div class="pCard_down">
+         <% if(Check==2){ %>
+            <div>
+               <p></p>
+               <p></p>
+            </div>
+         <% } %>
          <div>
             <p>Department</p>
             <p><%=profile[0].Department%></p>
          </div>
+         <%if(Check==0){%>
          <div>
             <p>Section</p>
             <p><%=profile[0].Section%></p>
@@ -53,6 +60,16 @@
             <p>Advisor</p>
             <p style="white-space: nowrap ;"><%=profile[0].Adviser%></p>
          </div>
+         <%} else if(Check==1){%>
+            <div>
+               <p></p>
+               <p></p>
+            </div>
+            <div>
+               <p>Cader</p>
+               <p><%=profile[0].Cader%></p>
+            </div>
+            <%}%>
       </div>
       <div class="pCard_back">   
       </div>

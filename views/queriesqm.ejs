@@ -1,77 +1,29 @@
-<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="/css/queries_student.css">
 <html>
-<head>
-	<title>Search</title>
-	<style>
-		a:link, a:visited {
-			border-radius: 25px;
-			width:50px;
-			background-color: #f44336;
-			color: white;
-			padding: 15px 25px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-		}
-		a:hover, a:active {
-			background-color: red;
-		}
-		table.tab{
-			position:relative;
-			left:280px;
-		}
-		a.current{
-			background-color: #ffffff;
-			color:#000000;
-		}
-	</style>
-</head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<body  style="margin: 0px; background-color: #f2f3f8;background-image: url('../images/bgpic6.jfif');height:100vh;background-size:cover;background-position:center;;">
-<div class="logo">
-<!--	<a href="https://intranet.cb.amrita.edu/"><img src="../images/logo-1.jpg" style="float:left;width:250px;height:auto;"></a>-->
-	<button href="#" style="position:absolute; height:70px;width:30px;background-color: #f44336;color: black;left:0px" class="previous round" onclick="goBack()">&#8249;</button>
-	<img src="/images/logoamrita.jpg" style="float:left;width:250px;height:auto;border-bottom-right-radius: 25px;">
-</div>
-<form action="http://127.0.0.1:8081/search" method="post">
-    <input type="text" id="mySearch" name="mySearch" class="search-input" placeholder="Search.." title="Type in a category" style=" position: absolute; top:10px;right:80px;width:250px; height:24px;">
-    <button class="search-button" style="position: absolute; top:10px;right: 60px; width:30px; height:30px;"><i class="fas fa-search"></i></button>
-</form>
-<div>
-    <% if(typeof suser1 == 'undefined'){ %>
-        <p class="center-p" style="position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;width: 500px;height: 50px;border-radius: 3px;text-align: center;font-size: 30px;">Looks like you are alone.😂</p>
-    <% }  else { for(var i=0; i < len; i++){ %>    
-	<form action="http://127.0.0.1:8081/profileView" method="post">
-		<table width="105%" border="0" align="center" cellpadding="5" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; margin-left: 80px; width:100px; margin-top:50px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:2%;">
-            <br>
-            <br>
-            <tr>
-                <td style="height:40px;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td align="left">
-                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Username : </label></td>
-                    <td><input type="text" class="inputtext" id=<%= 'UserName' + i%> name="UserName" placeholder="Username" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" value=<%= suser1[i] %> readonly/>
-                </td>											
-            </tr>
-            <tr>
-                <td align="left">			
-                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> User Firstname : </label></td>
-                    <td><input type="text" class="inputtext" id=<%= 'FirstName' + i%> name="FirstName" placeholder="User First Name" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" value=<%= suser2[i] %> readonly/>
-                </td>							
-            </tr>
-            <tr>
-                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:5px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 44px;display:inline-block;border-radius:50px;">View Profile</td>
-            </tr>
-            <tr>
-                <td style="height:40px;">&nbsp;</td>
-            </tr>
-        </table>
-    </form>
-    <% } } %>
-</br>
-</br>
-</div>
-</body>
-<script src="/js/goback.js"></script>
+    <title>Query Manager</title>
+    <div class="head">
+        <span>Ask your queries</span>
+    </div>
+    <form action="http://127.0.0.1:8081/Leaveshome" method="post">
+        <div>
+            <div class="img" id="img">
+                <button style="position:absolute; height:50px;width:70px;background-color: #f44336;color: black;right:10px" class="previous round">Home</button>
+            </div>
+        </form>
+    <div class="messages">
+        <% for(var i = 0; i < len; i++) { %>
+            <% if(Query[i].UserName=="QUERY MANAGER") { %>
+            <p class="txt2"><%= Query[i].Message %></p>
+            <% } else { %>
+            <p class="txt1"><%= Query[i].Message %></p>
+            <% } %>
+    </div>
+    <% } %>
+    <div class="queryarea">
+        <form action="http://127.0.0.1:8081/Queries_new_qm" method="post">
+            <textarea style="position:relative;width:93%;padding:5px;top:430px;left:7px;margin:5px;color:#00303f;font-weight:bold;" class="querymessage" name="querymessage" rows="3"></textarea>
+            <button style="position:relative;color:silver;background:#00303f;top:400px;left:7px;width:70px;margin:5px;height:40px;" class="btn">SEND</button>
+            <input type="text" class="inputtext" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none; visibility:hidden;" value="<%= UserName %>" readonly/>
+        </form>
+    </div>
 </html>

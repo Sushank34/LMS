@@ -26,6 +26,12 @@
                         </tr>
                         <tr>
                             <td align="left">
+                                <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Leave Type : </label></td>
+                                <td><input type="text" class="inputtext" id=<%= 'LeaveType' + i%> name="LeaveType" placeholder="LeaveType" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].LeaveType %> readonly>
+                            </td>											
+                        </tr>
+                        <tr>
+                            <td align="left">
                                 <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> User Name : </label></td>
                                 <td><input type="text" class="inputtext" id=<%= 'Name' + i%> name="Name" placeholder="From Date" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].Name %> readonly>
                             </td>											
@@ -57,12 +63,13 @@
                                 <input type="time" class="inputtext" id=<%= 'ToTime' + i%> name="ToTime" placeholder="To Time" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].ToTime %> readonly>
                             </td>						
                         </tr>
+                        <% if(leaves[i].LeaveType=='OD'){ %>
                         <tr>
                             <td align="left">								
                                 <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Event Type : </label>
                             </td>
                             <td>
-                                <input type="text" id=<%= 'EventType' + i%> class="inputtext" name="EventType" placeholder="Event Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].EventType %> readonly>
+                                <input type="text" id=<%= 'EventType' + i%> class="inputtext" name="EventType" placeholder="Event Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].EventType %>" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -70,7 +77,7 @@
                                 <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Participation Type : </label>
                             </td>
                             <td>
-                                <input type="text" id=<%= 'ParticipationType' + i%> class="inputtext" name="ParticipationType" placeholder="Participation Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].ParticipationType %> readonly>
+                                <input type="text" id=<%= 'ParticipationType' + i%> class="inputtext" name="ParticipationType" placeholder="Participation Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].ParticipationType %>" readonly>
                             </td>
                         </tr>
                         <tr>
@@ -78,9 +85,36 @@
                                 <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Award : </label>
                             </td>
                             <td>
-                                <input type="text" class="inputtext" id=<%= 'Award' + i%> name="Award" placeholder="Award" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= <%= leaves[i].Award %> readonly>
+                                <input type="text" class="inputtext" id=<%= 'Award' + i%> name="Award" placeholder="Award" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].Award %>" readonly>
                             </td>                                
                         </tr>
+                        <% } else if(leaves[i].LeaveType=='OL'){ %>
+                            <tr>
+                                <td align="left">								
+                                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Participation Type : </label>
+                                </td>
+                                <td>
+                                    <input type="text" id=<%= 'Reason' + i%> class="inputtext" name="Reason" placeholder="Reason" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].Reason %>" readonly>
+                                </td>
+                            </tr>
+                        <% } else if(leaves[i].LeaveType=='ML'){ %>
+                            <tr>
+                                <td align="left">								
+                                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Participation Type : </label>
+                                </td>
+                                <td>
+                                    <input type="text" id=<%= 'Type' + i%> class="inputtext" name="Type" placeholder="Type" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].Type %>" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="left">								
+                                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Award : </label>
+                                </td>
+                                <td>
+                                    <input type="text" class="inputtext" id=<%= 'TreatmentDetails' + i%> name="Award" placeholder="TreatmentDetails" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value= "<%= leaves[i].TreatmentDetails %>" readonly>
+                                </td>                                
+                            </tr>
+                        <% } %>
                         <tr>
                             <td><button id=<%= 'Button' + i%> style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Approve</td>
                         </tr>

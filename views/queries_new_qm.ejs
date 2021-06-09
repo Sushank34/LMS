@@ -41,7 +41,7 @@
     <% if(typeof suser1 == 'undefined'){ %>
         <p class="center-p" style="position: absolute;margin: auto;top: 0;right: 0;bottom: 0;left: 0;width: 500px;height: 50px;border-radius: 3px;text-align: center;font-size: 30px;">Looks like you are alone.😂</p>
     <% }  else { for(var i=0; i < len; i++){ %>    
-	<form action="http://127.0.0.1:8081/Queries_new_qm" method="post">
+	<form action="http://127.0.0.1:8081/Queries_new_qm1" method="post">
 		<table width="105%" border="0" align="center" cellpadding="5" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; margin-left: 80px; width:100px; margin-top:50px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:2%;">
             <br>
             <br>
@@ -51,13 +51,13 @@
             <tr>
                 <td align="left">
                     <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Username : </label></td>
-                    <td><input type="text" class="inputtext" id=<%= 'UserName' + i%> name="UserName" placeholder="Username" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" value=<%= suser1[i] %> readonly/>
+                    <td><input type="text" class="inputtext" id=<%= 'UserName' + i%> name="UserName" placeholder="Username" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value="<%= suser1[i].UserName %>" readonly/>
                 </td>											
             </tr>
             <tr>
                 <td align="left">			
-                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> User Firstname : </label></td>
-                    <td><input type="text" class="inputtext" id=<%= 'FirstName' + i%> name="FirstName" placeholder="User First Name" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" value=<%= suser2[i] %> readonly/>
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Firstname : </label></td>
+                    <td><input type="text" class="inputtext" id=<%= 'FirstName' + i%> name="FirstName" placeholder="User First Name" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;border-color: transparent;outline: none;" value="<%= suser1[i].FirstName %>" readonly/>
                 </td>							
             </tr>
             <tr>

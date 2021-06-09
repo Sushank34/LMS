@@ -12,7 +12,7 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+var url = "url";
 
 var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 
@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.static(__dirname + '/public'));
 var name = "";
+var name1 = "";
 var otp = 0;
 var otp1 = "";
 var mailid = "";
@@ -35,102 +36,87 @@ var check = 0;
 var str = "CB.EN.U4";
 
 
-/*app.post('/SignUp', urlencodedParser, function (req, res) {
-if(req.body.password==req.body.confirmpassword)
-{    
- MongoClient.connect(url, function(err, db) {
-   //if (err) throw err;
-   var dbo = db.db("mydb");
-   var query = { UserName: req.body.username };
-   var myobj = { UserName: req.body.username, MailID: req.body.email, Password: req.body.password };
-   var myobj1 = {UserName: req.body.username, MailID: req.body.email, Phone: '', FirstName: '', LastName: '', Address: '', City: '', State: '', Country: '', Bio: '', PostalCode: '' }
-   dbo.collection("users").find(query).toArray(function(err, result) {
-     //console.log(result[0]);
-     if(result[0]==null){ 
-       dbo.collection("users").insertOne(myobj, function(err, rest) {
-         console.log("1 document inserted");
-         //res.render('SignUpIn',{n:1});
-         //db.close();
-         //res.end();
-       });
-       dbo.collection("profile").insertOne(myobj1, function(err, rest) {
-        //console.log("1 document inserted");
-        res.render('SignUpIn',{n:1});
-        db.close();
-        res.end();
-      });
-     }
-     else
-     {
-      res.render('SignUpIn',{n:4});
-      res.end();
-     }
-     db.close();
-    });
- });
- //res.render('SignUpIn',{n:1});
- //alert("SignUp Successful");
- //res.end();
-}
-else
-{
-    //alert("Invalid details");
-    res.render('SignUpIn',{n:4});
-    res.end();
-}
-});*/
-
 app.post('/SignUp', urlencodedParser, function (req, res) {
   if(req.body.password==req.body.confirmpassword){
     MongoClient.connect(url, function(err, db) {
       var dbo = db.db("mydb");
-      var query = { UserName: req.body.username, Password: req.body.password };
-      var myquery = { UserName: req.body.username, Password: req.body.password };
+      name = req.body.username;
+      name1 = name.toUpperCase();
+      var query = {};
+      var myquery = {};
       var newvalues = { $set: {MailID: req.body.email, Count:0} };
-      var myobj = { UserName: req.body.username };
+      var myobj = {};
       var myobj1 ={};
-      dbo.collection("users").find(myobj).toArray(function(err, val) {
-        myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Section:val[0].Section, Adviser:val[0].Adviser }
-      });
-      //var myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '' }
+      check=0;
+      for(i=0;i<Math.min(name1.length,str.length);i++){
+        if(name1.charAt(i) == str.charAt(i)){
+          count = count + 1;
+        }
+      }
+      if(count == 8){
+        myobj = { UserName: name1 };
+        query = { UserName: name1, Password: req.body.password };
+        myquery = { UserName: name1, Password: req.body.password };
+        check = 0;
+        count = 0;
+      }
+      else{
+        myobj = {UserName: req.body.username};
+        query = { UserName: req.body.username, Password: req.body.password };
+        myquery = { UserName: req.body.username, Password: req.body.password };
+        if(name=="QUERY MANAGER"){
+          check=2;
+        }
+        else{
+          check = 1;
+        }
+        count = 0;
+      }
+      if(check==0){
+        dbo.collection("users").find(myobj).toArray(function(err, val) {
+          myobj1 = {UserName: name1, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Section:val[0].Section, Adviser:val[0].Adviser }
+        });
+      }
+      else if(check==1){
+        dbo.collection("users").find(myobj).toArray(function(err, val) {
+          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Cader: val[0].Cader }
+        });
+      }
+      else if(check==2){
+        dbo.collection("users").find(myobj).toArray(function(err, val) {
+          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '' }
+        });
+      }
       dbo.collection("users").find(query).toArray(function(err, result) {
         if(result[0]==null){
-          res.render('SignUpIn',{n:4});
+          res.render('SignUpIn',{n:4,count:0});
           db.close();
           res.end();
         }
         else{
           dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
             console.log("1 document updated");
-            //res.render('SignUpIn',{n:1});
-            //db.close();
-            //res.end();
           });
           dbo.collection("profile").find(myobj).toArray(function(err, val) {
             if(val[0]==null){
               dbo.collection("profile").insertOne(myobj1, function(err, rest) {
-                res.render('SignUpIn',{n:1});
+                res.render('SignUpIn',{n:1,count:0});
                 db.close();
                 res.end();
               });
             }
             else{
-              res.render('SignUpIn',{n:1});
+              res.render('SignUpIn',{n:1,count:0});
                 db.close();
                 res.end();
             }
           });
-          //dbo.collection("profile").insertOne(myobj1, function(err, rest) {
-            //res.render('SignUpIn',{n:1});
-            //db.close();
-            //res.end();
-          //});
         }
       });
     });
   }
   else{
-    res.render('SignUpIn',{n:4});
+    res.render('SignUpIn',{n:4,count:0});
     res.end();
   }
 });
@@ -140,19 +126,21 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
     if (err) throw err;
     var dbo = db.db("mydb");
     name = req.body.username1
-    name.toUpperCase;
-    for(i=0;i<Math.min(name.length,str.length);i++){
-      if(name.charAt(i).toUpperCase == str.charAt(i).toUpperCase){
+    name1 = name.toUpperCase();
+    check=0
+    for(i=0;i<Math.min(name1.length,str.length);i++){
+      if(name1.charAt(i) == str.charAt(i)){
         count = count + 1;
       }
     }
-    console.log(count);
     if(count == 8){
+      var query = { UserName: name1, Password: req.body.password1 };
       check = 0;
       count = 0;
     }
     else{
-      if(name=="QUERY MANAGER"){
+      var query = { UserName: req.body.username1, Password: req.body.password1 };
+      if(name1=="QUERY MANAGER"){
         check=2;
       }
       else{
@@ -160,32 +148,32 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
       }
       count = 0;
     }
-    var query = { UserName: req.body.username1, Password: req.body.password1 };
-    //var myquery = { UserName: req.body.username1 };
-    //var newvalues = { $set: {Count: req.body.password } };
     dbo.collection("users").find(query).toArray(function(err, result) {
-      //if (err) throw err;
-      //console.log(result);
+      var newvalues1 = { $set: {Count: 0 } };
       if(result[0]!=null && result[0].Count<5 && check==0)
       {
-        //var myquery = { UserName: req.body.username1 }
-        //var newvalues = { $set: {Count: '0' } };
-        //dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {});
-        res.render('home2',{n:req.body.username1,x:0});
+        var myquery1 = { UserName: name1 }
+        dbo.collection("users").updateOne(myquery1, newvalues1, function(err, val) {});
+        res.render('home2',{n:name1,x:0});
         db.close();
       }
       else if(result[0]!=null && result[0].Count<5 && check==1){
+        var myquery1 = { UserName: req.body.username1 }
+        dbo.collection("users").updateOne(myquery1, newvalues1, function(err, val) {});
         res.render('home2_faculty',{n:req.body.username1,x:0});
         db.close();
       }
       else if(result[0]!=null && result[0].Count<5 && check==2){
+        var myquery1 = { UserName: req.body.username1 }
+        dbo.collection("users").updateOne(myquery1, newvalues1, function(err, val) {});
         res.render('home2_qm',{n:req.body.username1,x:0});
         db.close();
       }
       else
       { 
         var check1=1;
-        var myquery = { UserName: req.body.username1 }
+        if(check==0){
+        var myquery = { UserName: name1 }
         dbo.collection("users").find(myquery).toArray(function(err, rest) {
           check1=check1+rest[0].Count;
           if(rest[0].Count<5){
@@ -195,10 +183,36 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
               res.render('SignUpIn',{n:3,count:check1});
             });
           }
+          else{
+            var newvalues = { $set: {Count: check1 } };
+            dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
+              console.log("Count Updated");
+              res.render('SignUpIn',{n:3,count:check1});
+            });
+          }
         });
-        //res.render('SignUpIn',{n:3});
+        }
+        else{
+          var myquery = { UserName: req.body.username }
+        dbo.collection("users").find(myquery).toArray(function(err, rest) {
+          check1=check1+rest[0].Count;
+          if(rest[0].Count<5){
+            var newvalues = { $set: {Count: check1 } };
+            dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
+              console.log("Count Updated");
+              res.render('SignUpIn',{n:3,count:check1});
+            });
+          }
+          else{
+            var newvalues = { $set: {Count: check1 } };
+            dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
+              console.log("Count Updated");
+              res.render('SignUpIn',{n:3,count:check1});
+            });
+          }
+        });
+        }
       }
-      //db.close();
     });
   });
 });
@@ -226,7 +240,6 @@ app.post('/ML', urlencodedParser, function (req, res) {
 app.post('/OD1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
-    //if (err) throw err;
     var dbo = db.db("mydb");
     var myobj = { Name: name, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
@@ -245,7 +258,6 @@ else{
 app.post('/OL1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
-    //if (err) throw err;
     var dbo = db.db("mydb");
     var myobj = { Name: name, LeaveType:"OL", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Reason: req.body.Reason };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
@@ -264,14 +276,10 @@ app.post('/OL1', urlencodedParser, function (req, res) {
 app.post('/ML1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
-    //if (err) throw err;
     var dbo = db.db("mydb");
     var myobj = { Name: name, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
-      //res.render('home2',{n:name,x:1});
-      //db.close();
-      //res.end();
     });
     var file = {Name: name, File: binary(req.files.myFile.data)}
     dbo.collection("files").insertOne(file, function(err, rest) {
@@ -331,7 +339,6 @@ app.post('/OTPSend', function (req, res) {
       {
         res.render('SignUpIn',{n:6});
       }
-      //db.close();
     });
   });
 
@@ -374,9 +381,7 @@ app.post('/Leaves_applied', function (req, res) {
     var dbo = db.db("mydb");
     var myquery = { Faculty: name };
     dbo.collection("leave").find(myquery).toArray(function(err, result) {
-      //console.log(result[0]._id);
       res.render('leaves_applied',{len:result.length,leaves:result})
-      //console.log("length of data:"+result.length);
     });
   });
 })
@@ -385,38 +390,92 @@ app.post('/Leaves_approve', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
     var myquery = { Faculty: name };
-    var myobj = { Name: req.body.Name, FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType };
+    if(req.body.LeaveType=='OD'){
+      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+      dbo.collection("leave").find(myobj).toArray(function(err, result) {
+        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, EventType: result[0].EventType, ParticipationType: result[0].ParticipationType, Award: result[0].Award }
+        dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
+        });
+      });
+      dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+        console.log("1 document deleted");
+        dbo.collection("leave").find(myquery).toArray(function(err, val) {
+          res.render('leaves_applied',{len:val.length,leaves:val});
+          db.close();
+          res.end();
+        });
+      });
+    }
+    else if(req.body.LeaveType=='OL'){
+      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Reason: req.body.Reason };
+      dbo.collection("leave").find(myobj).toArray(function(err, result) {
+        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Reason: result[0].Reason }
+        dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
+        });
+      });
+      dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+        console.log("1 document deleted");
+        dbo.collection("leave").find(myquery).toArray(function(err, val) {
+          res.render('leaves_applied',{len:val.length,leaves:val});
+          db.close();
+          res.end();
+        });
+      });
+    }
+    else if(req.body.LeaveType=='ML'){
+      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+      dbo.collection("leave").find(myobj).toArray(function(err, result) {
+        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Type: result[0].Type, TreatmentDetails: result[0].TreatmentDetails }
+        dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
+        });
+      });
+      dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+        console.log("1 document deleted");
+        dbo.collection("leave").find(myquery).toArray(function(err, val) {
+          res.render('leaves_applied',{len:val.length,leaves:val});
+          db.close();
+          res.end();
+        });
+      });
+    }
+    /*var myobj = { Name: req.body.Name, FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType };
     dbo.collection("leave").find(myobj).toArray(function(err, result) {
-      console.log(result[0]);
-      console.log(myobj);
       var myobj1={ Name: result[0].Name, FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, EventType: result[0].EventType, ParticipationType: result[0].ParticipationType, Award: result[0].Award }
       dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
-        //db.close();
-        //res.end();
       });
     });
     dbo.collection("leave").deleteOne(myobj, function(err, obj) {
-      //if (err) throw err;
       console.log("1 document deleted");
       dbo.collection("leave").find(myquery).toArray(function(err, val) {
         res.render('leaves_applied',{len:val.length,leaves:val});
         db.close();
         res.end();
       });
-    });
+    });*/
   });
 });
 
 app.post('/Leaveshome', function (req, res) {
-  res.render('home2',{n:name,x:0});
+  if(check==0){
+    res.render('home2',{n:name1,x:0});
+  }
+  else if(check==1){
+    res.render('home2_faculty',{n:name,x:0});
+  }
+  else{
+    res.render('home2_qm',{n:name,x:0});
+  }
 });
 
 app.post('/profile', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
     var query = { UserName: name };
+    if(check==0){
+      query = { UserName: name1 };
+    }
     dbo.collection("profile").find(query).toArray(function(err, result) {
-      res.render('Profile',{profile:result});
+      res.render('Profile',{profile:result,Check:check});
       db.close();
       res.end();
     });
@@ -424,7 +483,16 @@ app.post('/profile', function (req, res) {
 })
 
 app.post('/profileChange', function (req, res) {
-  res.render('Profile_edit');
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var query = { UserName: name };
+    if(check==0){
+      query = { UserName: name1 };
+    }
+    dbo.collection("profile").find(query).toArray(function(err, result) {
+      res.render('Profile_edit',{details:result});
+    });
+  });
 });
 
 app.post('/searchUser', function (req, res) {
@@ -477,6 +545,9 @@ app.post('/profileEdit', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
     var myquery = { UserName: name };
+    if(check==0){
+      myquery = { UserName: name1 };
+    }
     var newvalues = { $set: {  FirstName: req.body.firstname, LastName: req.body.lastname, Phone: req.body.phonenumber, Address: req.body.address, HealthBio: req.body.healthbio } };
     dbo.collection("profile").updateOne(myquery, newvalues, function(err, rest) {
       console.log("1 document updated");
@@ -485,6 +556,9 @@ app.post('/profileEdit', function (req, res) {
       //res.end();
     });
     var query = { UserName: name };
+    if(check==0){
+      query = { UserName: name1 };
+    }
     dbo.collection("profile").find(query).toArray(function(err, result) {
       var globalVariable={
         z: result
@@ -500,12 +574,20 @@ app.post('/passwordChange', function (req, res) {
     MongoClient.connect(url, function(err, db) {
       var dbo = db.db("mydb"); 
       var myquery = { UserName: name };
+      if(check==0){
+        myquery = { UserName: name1 };
+      }
       dbo.collection("users").find(myquery).toArray(function(err, result) {
         if(req.body.password==result[0].Password){
           var newvalues = { $set: {  Password: req.body.newpassword } };
           dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
             console.log("1 document updated");
-            res.render('home2',{n:name,x:0});
+            if(check==0){
+              res.render('home2',{n:name1,x:0});
+            }
+            else{
+              res.render('home2',{n:name,x:0});
+            }
             db.close();
             res.end();
           });
@@ -523,78 +605,156 @@ app.post('/passwordChange', function (req, res) {
   }
 });
 
-/*app.post('/Querypage', function (req, res) {
-  var arr =new Array(1);
-  arr[0]=0;
-  res.render('queries_student',{Query:arr, len:0});
-});*/
 
 app.post('/query_send', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
     var myquery = { UserName: name };
-    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+    if(check==0)
+    {
+      myquery = { UserName: name1 };
+    }
+    var sample1={};
+    dbo.collection("profile").find(myquery).toArray(function(err, result) {
       if(result[0]!=null){
-        var change = result[0].Message+'$'+req.body.querymessage;
-        var newvalues = { $set: {Message: change } };
+        sample1={ FirstName:result[0].FirstName };
+      }
+    });
+    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+      var change
+      if(result[0]!=null){
+        change = result[0].Message+'$'+req.body.querymessage;
+        var newvalues = {};
+        if(result[0].Flag==false){
+          newvalues = { $set: {Message: change,Flag: true } };
+        }
+        else{
+          newvalues = { $set: {Message: change } };
+        }
         dbo.collection("queries").updateOne(myquery, newvalues, function(err, rest) {
           console.log("1 document inserted");
         });
-      }
-      else{
-        var myobj = { UserName: name, Message: req.body.querymessage };
-        dbo.collection("queries").insertOne(myobj, function(err, rest) {
-          dbo.collection("userquery").insertOne(myquery, function(err, rest) {
-            console.log("1 document inserted");
-          });
-        });
-      }
-      var w = 0;
-      for(var i=0;i<1000;i++){
-        for(var j=0;j<1000;j++){}
-      }
-      dbo.collection("queries").find(myquery).toArray(function(err, result) {
-        var s = result[0].Message;
+        var s = change;
         var c = 0;
         for(var i=0;i<s.length;i++){
-          if(s.charAt(i)=='$'){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
             c=c+1;
           }
         }
-        c=c+1;
         var arr = new Array(c);
-        var j = 0;
+        var j = -1;
         for(var i=0;i<c;i++){
           arr[i]=''
         }
+        var k="";
         for(var i=0;i<s.length;i++){
-          if(s.charAt(i)=='$'){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+            var arr1 = {}
+            if(s.charAt(i)=='$'){
+              arr1={UserName:myquery.UserName,Message:""}
+            }
+            else{
+              arr1={UserName:"QUERY MANAGER",Message:""}
+            }
             j=j+1
+            arr[j]=arr1
+            k=""
             continue
           }
-          arr[j]=arr[j]+s.charAt(i)
+          k=k+s.charAt(i)
+          arr[j].Message=k
         }
         res.render('queries_student',{Query:arr, len:arr.length});
         db.close();
         res.end();
-      })
-    
+      }
+      else{ 
+        var sample={ UserName:myquery.UserName, Message:"", FirstName:sample1.FirstName,Flag:false }
+        console.log();
+        dbo.collection("queries").insertOne(sample, function(err, rest) {
+          console.log("1 document inserted");
+        });
+        res.render('queries_student',{len:0});
+        db.close();
+        res.end();
+      }
+        
+      });
+      var w = 0;
+      for(var i=0;i<1000;i++){
+        for(var j=0;j<1000;j++){}
+      }
     });
-    //var myobj = { UserName: name, Message: req.body.querymessage };
-    //dbo.collection("queries").insertOne(myobj, function(err, rest) {
-      //console.log("1 document inserted");
-      //db.close();
-      //res.end();
-    //});
-    //var myquery = { UserName: name };
-    /*dbo.collection("queries").find(myquery).toArray(function(err, result) {
-      console.log(result[0]);
-      res.render('queries_student',{Query:result, len:result.length});
-      db.close();
-      res.end();
-    })*/
   })
-})
+
+  app.post('/query_send1', function (req, res) {
+    MongoClient.connect(url, function(err, db) {
+      var dbo = db.db("mydb");
+      var myquery = { UserName: name };
+      if(check==0)
+      {
+        myquery = { UserName: name1 };
+      }
+      var sample1={};
+      dbo.collection("profile").find(myquery).toArray(function(err, result) {
+        if(result[0]!=null){
+          sample1={ FirstName:result[0].FirstName };
+        }
+      });
+      dbo.collection("queries").find(myquery).toArray(function(err, result) {
+        if(result[0]!=null){
+          var s = result[0].Message;
+          var c = 0;
+          for(var i=0;i<s.length;i++){
+            if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+              c=c+1;
+            }
+          }
+          var arr = new Array(c);
+          var j = -1;
+          for(var i=0;i<c;i++){
+            arr[i]=''
+          }
+          var k="";
+          for(var i=0;i<s.length;i++){
+            if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+              var arr1 = {}
+              if(s.charAt(i)=='$'){
+                arr1={UserName:myquery.UserName,Message:""}
+              }
+              else{
+                arr1={UserName:"QUERY MANAGER",Message:""}
+              }
+              j=j+1
+              arr[j]=arr1
+              k=""
+              continue
+            }
+            k=k+s.charAt(i)
+            arr[j].Message=k
+          }
+          res.render('queries_student',{Query:arr, len:arr.length});
+          db.close();
+          res.end();
+        }
+        else{ 
+          var sample={ UserName:myquery.UserName, Message:"", FirstName:sample1.FirstName,Flag:false }
+          console.log();
+          dbo.collection("queries").insertOne(sample, function(err, rest) {
+            console.log("1 document inserted");
+          });
+          res.render('queries_student',{len:0});
+          db.close();
+          res.end();
+        }
+          
+        });
+        var w = 0;
+        for(var i=0;i<1000;i++){
+          for(var j=0;j<1000;j++){}
+        }
+      });
+    })
 
 app.post('/Leaves_applied_past_s', function (req, res) {
   MongoClient.connect(url, function(err, db) {
@@ -618,6 +778,169 @@ app.post('/Leaves_applied_present_s', function (req, res) {
       res.end();
     });
   });
+});
+
+app.post('/querieslist', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = { Flag: true };
+    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+      res.render('queries_new_qm',{len:result.length,suser1:result});
+    });
+  });
+});
+
+app.post('/Queries_new_qm', function (req, res) {
+  var myquery = { UserName: req.body.UserName };
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var sample1={};
+    dbo.collection("profile").find(myquery).toArray(function(err, result) {
+      if(result[0]!=null){
+        sample1={ FirstName:result[0].FirstName };
+      }
+    });
+    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+      var change
+      if(result[0]!=null){
+        change = result[0].Message+'^'+req.body.querymessage;
+        var newvalues = {};
+        if(result[0].Flag==false){
+          newvalues = { $set: {Message: change,Flag: true } };
+        }
+        else{
+          newvalues = { $set: {Message: change } };
+        }
+        dbo.collection("queries").updateOne(myquery, newvalues, function(err, rest) {
+          console.log("1 document inserted");
+        });
+        var s = change;
+        var c = 0;
+        for(var i=0;i<s.length;i++){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+            c=c+1;
+          }
+        }
+        var arr = new Array(c);
+        var j = -1;
+        for(var i=0;i<c;i++){
+          arr[i]=''
+        }
+        var k="";
+        for(var i=0;i<s.length;i++){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+            var arr1 = {}
+            if(s.charAt(i)=='$'){
+              arr1={UserName:myquery.UserName,Message:""}
+            }
+            else{
+              arr1={UserName:"QUERY MANAGER",Message:""}
+            }
+            j=j+1
+            arr[j]=arr1
+            k=""
+            continue
+          }
+          k=k+s.charAt(i)
+          arr[j].Message=k
+        }
+        res.render('queriesqm',{Query:arr, len:arr.length,UserName:myquery.UserName});
+        db.close();
+        res.end();
+      }
+      else{ 
+        var sample={ UserName:myquery.UserName, Message:"", FirstName:sample1.FirstName,Flag:false }
+        console.log();
+        dbo.collection("queries").insertOne(sample, function(err, rest) {
+          console.log("1 document inserted");
+        });
+        res.render('queriesqm',{len:0,UserName:myquery.UserName});
+        db.close();
+        res.end();
+      }
+        
+      });
+      var w = 0;
+      for(var i=0;i<1000;i++){
+        for(var j=0;j<1000;j++){}
+      }
+    });
+
+});
+
+app.post('/Queries_new_qm1', function (req, res) {
+  var myquery = { UserName: req.body.UserName };
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var newvalues = {};
+    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+      if(result[0].Flag==true){
+        newvalues = { $set: {Flag: false } };
+      }
+      dbo.collection("queries").updateOne(myquery, newvalues, function(err, rest) {
+        console.log("1 document inserted");
+      });
+    });
+    var sample1={};
+    dbo.collection("profile").find(myquery).toArray(function(err, result) {
+      if(result[0]!=null){
+        sample1={ FirstName:result[0].FirstName };
+      }
+    });
+    dbo.collection("queries").find(myquery).toArray(function(err, result) {
+      if(result[0]!=null){
+        var s = result[0].Message;
+        var c = 0;
+        for(var i=0;i<s.length;i++){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+            c=c+1;
+          }
+        }
+        var arr = new Array(c);
+        var j = -1;
+        for(var i=0;i<c;i++){
+          arr[i]=''
+        }
+        var k="";
+        for(var i=0;i<s.length;i++){
+          if(s.charAt(i)=='$' || s.charAt(i)=='^'){
+            var arr1 = {}
+            if(s.charAt(i)=='$'){
+              arr1={UserName:myquery.UserName,Message:""}
+            }
+            else{
+              arr1={UserName:"QUERY MANAGER",Message:""}
+            }
+            j=j+1
+            arr[j]=arr1
+            k=""
+            continue
+          }
+          k=k+s.charAt(i)
+          arr[j].Message=k
+        }
+        res.render('queriesqm',{Query:arr, len:arr.length,UserName:myquery.UserName});
+        db.close();
+        res.end();
+      }
+      else{ 
+        var sample={ UserName:myquery.UserName, Message:"", FirstName:sample1.FirstName,Flag:false }
+        console.log();
+        dbo.collection("queries").insertOne(sample, function(err, rest) {
+          console.log("1 document inserted");
+        });
+        res.render('queriesqm',{len:0,UserName:myquery.UserName});
+        db.close();
+        res.end();
+      }
+        
+      });
+      var w = 0;
+      for(var i=0;i<1000;i++){
+        for(var j=0;j<1000;j++){}
+      }
+    });
+
 });
 
 var server = app.listen(8081, function () {});
