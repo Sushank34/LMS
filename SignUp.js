@@ -12,7 +12,7 @@ var fs = require('fs');
 var nodemailer = require('nodemailer');
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "url";
+var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 
@@ -106,6 +106,11 @@ app.post('/SignUp', urlencodedParser, function (req, res) {
               });
             }
             else{
+              if(val[0].MailID.equals(req.body.email)){
+                dbo.collection("profile").updateOne(myquery, newvalues, function(err, rest) {
+                  console.log("1 document updated");
+                });
+              }
               res.render('SignUpIn',{n:1,count:0});
                 db.close();
                 res.end();
@@ -175,7 +180,8 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
         if(check==0){
         var myquery = { UserName: name1 }
         dbo.collection("users").find(myquery).toArray(function(err, rest) {
-          check1=check1+rest[0].Count;
+          if(rest[0]!=null){
+            check1=check1+rest[0].Count;
           if(rest[0].Count<5){
             var newvalues = { $set: {Count: check1 } };
             dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
@@ -190,26 +196,35 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
               res.render('SignUpIn',{n:3,count:check1});
             });
           }
+        }
+        else{
+          res.render('SignUpIn',{n:3,count:-1});
+        }
         });
         }
         else{
           var myquery = { UserName: req.body.username }
         dbo.collection("users").find(myquery).toArray(function(err, rest) {
-          check1=check1+rest[0].Count;
-          if(rest[0].Count<5){
-            var newvalues = { $set: {Count: check1 } };
-            dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
-              console.log("Count Updated");
-              res.render('SignUpIn',{n:3,count:check1});
-            });
+          if(rest[0]!=null){
+            check1=check1+rest[0].Count;
+            if(rest[0].Count<5){
+              var newvalues = { $set: {Count: check1 } };
+              dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
+                console.log("Count Updated");
+                res.render('SignUpIn',{n:3,count:check1});
+              });
+            }
+            else{
+              var newvalues = { $set: {Count: check1 } };
+              dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
+                console.log("Count Updated");
+                res.render('SignUpIn',{n:3,count:check1});
+              });
+            }
           }
-          else{
-            var newvalues = { $set: {Count: check1 } };
-            dbo.collection("users").updateOne(myquery, newvalues, function(err, val) {
-              console.log("Count Updated");
-              res.render('SignUpIn',{n:3,count:check1});
-            });
-          }
+        else{
+          res.render('SignUpIn',{n:3,count:-1});
+        }
         });
         }
       }
@@ -241,10 +256,10 @@ app.post('/OD1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+    var myobj = { UserName: name1, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
-      res.render('home2',{n:name,x:1});
+      res.render('home2',{n:name1,x:1});
       db.close();
       res.end();
     });
@@ -259,10 +274,10 @@ app.post('/OL1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType:"OL", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Reason: req.body.Reason };
+    var myobj = { UserName: name1, LeaveType:"OL", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Reason: req.body.Reason };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
-      res.render('home2',{n:name,x:1});
+      res.render('home2',{n:name1,x:1});
       db.close();
       res.end();
     });
@@ -277,13 +292,13 @@ app.post('/ML1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
-    var myobj = { Name: name, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+    var myobj = { UserName: name1, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
     });
-    var file = {Name: name, File: binary(req.files.myFile.data)}
+    var file = {UserName: name1, File: binary(req.files.myFile.data)}
     dbo.collection("files").insertOne(file, function(err, rest) {
-      res.render('home2',{n:name,x:1});
+      res.render('home2',{n:name1,x:1});
       db.close();
       res.end();
     });
@@ -337,7 +352,7 @@ app.post('/OTPSend', function (req, res) {
       }
       else
       {
-        res.render('SignUpIn',{n:6});
+        res.render('SignUpIn',{n:6,count:0});
       }
     });
   });
@@ -365,14 +380,14 @@ app.post('/OTPconfirm', function (req, res) {
       dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
         console.log("1 document updated");
         db.close();
-        res.render('SignUpIn',{n:5});
+        res.render('SignUpIn',{n:5,count:0});
         res.end();
       });
     });
   }
   else
   {
-    res.render('SignUpIn',{n:7});
+    res.render('SignUpIn',{n:7,count:0});
   }
 })
 
@@ -391,9 +406,9 @@ app.post('/Leaves_approve', function (req, res) {
     var dbo = db.db("mydb");
     var myquery = { Faculty: name };
     if(req.body.LeaveType=='OD'){
-      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+      var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
       dbo.collection("leave").find(myobj).toArray(function(err, result) {
-        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, EventType: result[0].EventType, ParticipationType: result[0].ParticipationType, Award: result[0].Award }
+        var myobj1={ UserName: result[0].UserName, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, EventType: result[0].EventType, ParticipationType: result[0].ParticipationType, Award: result[0].Award }
         dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
         });
       });
@@ -407,9 +422,9 @@ app.post('/Leaves_approve', function (req, res) {
       });
     }
     else if(req.body.LeaveType=='OL'){
-      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Reason: req.body.Reason };
+      var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Reason: req.body.Reason };
       dbo.collection("leave").find(myobj).toArray(function(err, result) {
-        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Reason: result[0].Reason }
+        var myobj1={ UserName: result[0].UserName, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Reason: result[0].Reason }
         dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
         });
       });
@@ -423,9 +438,9 @@ app.post('/Leaves_approve', function (req, res) {
       });
     }
     else if(req.body.LeaveType=='ML'){
-      var myobj = { Name: req.body.Name, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+      var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
       dbo.collection("leave").find(myobj).toArray(function(err, result) {
-        var myobj1={ Name: result[0].Name, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Type: result[0].Type, TreatmentDetails: result[0].TreatmentDetails }
+        var myobj1={ UserName: result[0].UserName, LeaveType: result[0].LeaveType , FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, Type: result[0].Type, TreatmentDetails: result[0].TreatmentDetails }
         dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
         });
       });
@@ -438,20 +453,6 @@ app.post('/Leaves_approve', function (req, res) {
         });
       });
     }
-    /*var myobj = { Name: req.body.Name, FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: name, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType };
-    dbo.collection("leave").find(myobj).toArray(function(err, result) {
-      var myobj1={ Name: result[0].Name, FromDate: result[0].FromDate, FromTime: result[0].FromTime, ToDate: result[0].ToDate, ToTime: result[0].ToTime, Faculty: result[0].Faculty, EventType: result[0].EventType, ParticipationType: result[0].ParticipationType, Award: result[0].Award }
-      dbo.collection("apleave").insertOne(myobj1, function(err, rest) {
-      });
-    });
-    dbo.collection("leave").deleteOne(myobj, function(err, obj) {
-      console.log("1 document deleted");
-      dbo.collection("leave").find(myquery).toArray(function(err, val) {
-        res.render('leaves_applied',{len:val.length,leaves:val});
-        db.close();
-        res.end();
-      });
-    });*/
   });
 });
 
@@ -585,23 +586,30 @@ app.post('/passwordChange', function (req, res) {
             if(check==0){
               res.render('home2',{n:name1,x:0});
             }
+            else if(check==1){
+              res.render('home2_faculty',{n:name,x:0});
+            }
             else{
-              res.render('home2',{n:name,x:0});
+              res.render('home2_qm',{n:name,x:0});
             }
             db.close();
             res.end();
           });
         }
         else{
-          res.render('Profile_edit');
-          db.close();
-          res.end();
+          dbo.collection("profile").find(myquery).toArray(function(err, result) {
+            res.render('Profile_edit',{details:result});
+            db.close();
+            res.end();
+          });
         }
       });
     });
   }
   else{
-    res.render('Profile_edit');
+    dbo.collection("profile").find(myquery).toArray(function(err, result) {
+      res.render('Profile_edit',{details:result});
+    });
   }
 });
 
@@ -756,29 +764,69 @@ app.post('/query_send', function (req, res) {
       });
     })
 
-app.post('/Leaves_applied_past_s', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-    var dbo = db.db("mydb");
-    var myquery = { UserName: name };
-    dbo.collection("apleave").find(myquery).toArray(function(err, result) {
-      res.render('Leaves_applied_past_s',{len:result.length});
-      db.close();
-      res.end();
+    app.post('/Leaves_applied_past_s', function (req, res) {
+      MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("mydb");
+        var myquery = { UserName: name1 };
+        dbo.collection("apleave").find(myquery).toArray(function(err, result) {
+          res.render('Leaves_applied_past_s',{len:result.length,leaves:result});
+          db.close();
+          res.end();
+        });
+      });
     });
-  });
-});
-
-app.post('/Leaves_applied_present_s', function (req, res) {
-  MongoClient.connect(url, function(err, db) {
-    var dbo = db.db("mydb");
-    var myquery = { UserName: name };
-    dbo.collection("leave").find(myquery).toArray(function(err, result) {
-      res.render('Leaves_applied_present_s',{len:result.length});
-      db.close();
-      res.end();
+    
+    app.post('/Leaves_applied_present_s', function (req, res) {
+      MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("mydb");
+        var myquery = { UserName: name1 };
+        dbo.collection("leave").find(myquery).toArray(function(err, result) {
+          res.render('Leaves_applied_present_s',{len:result.length,leaves:result});
+          db.close();
+          res.end();
+        });
+      });
     });
-  });
-});
+    
+    app.post('/Leaves_applied_present_s1', function (req, res) {
+      MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("mydb");
+        var myquery = { UserName: name1 };
+        if(req.body.LeaveType=='OD'){
+          var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: req.body.Faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+          dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+            console.log("1 document deleted");
+            dbo.collection("leave").find(myquery).toArray(function(err, val) {
+              res.render('Leaves_applied_present_s',{len:val.length,leaves:val});
+              db.close();
+              res.end();
+            });
+          });
+        }
+        else if(req.body.LeaveType=='OL'){
+          var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: req.body.Faculty, Reason: req.body.Reason };
+          dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+            console.log("1 document deleted");
+            dbo.collection("leave").find(myquery).toArray(function(err, val) {
+              res.render('Leaves_applied_present_s',{len:val.length,leaves:val});
+              db.close();
+              res.end();
+            });
+          });
+        }
+        else if(req.body.LeaveType=='ML'){
+          var myobj = { UserName: req.body.UserName, LeaveType: req.body.LeaveType , FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime, Faculty: req.body.Faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+          dbo.collection("leave").deleteOne(myobj, function(err, obj) {
+            console.log("1 document deleted");
+            dbo.collection("leave").find(myquery).toArray(function(err, val) {
+              res.render('Leaves_applied_present_s',{len:val.length,leaves:val});
+              db.close();
+              res.end();
+            });
+          });
+        }
+      });
+    });
 
 app.post('/querieslist', function (req, res) {
   MongoClient.connect(url, function(err, db) {
@@ -805,8 +853,8 @@ app.post('/Queries_new_qm', function (req, res) {
       if(result[0]!=null){
         change = result[0].Message+'^'+req.body.querymessage;
         var newvalues = {};
-        if(result[0].Flag==false){
-          newvalues = { $set: {Message: change,Flag: true } };
+        if(result[0].Flag==true){
+          newvalues = { $set: {Message: change,Flag: false } };
         }
         else{
           newvalues = { $set: {Message: change } };

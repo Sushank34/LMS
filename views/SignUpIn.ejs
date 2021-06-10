@@ -44,11 +44,17 @@
                 <span class="closebtn">&times;</span>  
                 <strong>Alert!</strong> Check the password.
             </div>
-            <% } else if(count!=0){%>
+            <% } else if(count>=5){%>
             </br>
             <div class="alert">
                 <span class="closebtn">&times;</span>
                 <strong>Limit Exceeded!</strong> Verify yourself by entering your credentials properly and your account will be free to use again.
+            </div>
+            <% } else if(count==-1){ %>
+            </br>
+            <div class="alert">
+                <span class="closebtn">&times;</span>
+                <strong>Credentials are wrong!</strong>
             </div>
             <% } %>
         </form>
