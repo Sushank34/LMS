@@ -14,7 +14,7 @@ var formidable = require('formidable');
 var reader = require('xlsx')
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "";
+var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 /*var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 

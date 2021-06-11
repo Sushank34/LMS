@@ -3,7 +3,7 @@
 *{margin: 0px; padding: 0px}
 
 body{
-  background:linear-gradient(to right, #f17660, #eebeb6) no-repeat 0 0 / cover;
+  background:linear-gradient(to top, #ff96ed, #b4dcee) no-repeat 0 0 / cover;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -68,7 +68,7 @@ a:hover{
 /*Button One*/
 .button-one {
   position: relative;
-  background-color: #f39c12;
+  background-color: #84f13a;
   border: none;
   padding: 20px;
   width: 200px;
@@ -87,7 +87,7 @@ a:hover{
 
 .button-one:after {
   content: "";
-  background: #f1c40f;
+  background: #84f13a;
   display: block;
   position: absolute;
   padding-top: 300%;
@@ -108,7 +108,7 @@ a:hover{
 /*Button Two*/
 .button-two {
   position: relative;
-  background-color: #f39c12;
+  background-color: #84f13a;
   border: none;
   padding: 20px;
   width: 200px;
@@ -127,7 +127,7 @@ a:hover{
 
 .button-two:after {
   content: "";
-  background: #f1c40f;
+  background: #84f13a;
   display: block;
   position: absolute;
   padding-top: 300%;
@@ -149,7 +149,7 @@ a:hover{
 /*Button Three*/
 .button-three {
     position: relative;
-    background-color: #f39c12;
+    background-color: #84f13a;
     border: none;
     padding: 20px;
     width: 200px;
@@ -168,7 +168,7 @@ a:hover{
 
 .button-three:after {
     content: "";
-    background: #f1c40f;
+    background: #84f13a;
     display: block;
     position: absolute;
     padding-top: 300%;
