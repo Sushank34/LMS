@@ -1,0 +1,418 @@
+<link href="/css/admin_users.css" rel="stylesheet">
+<div class="main">
+    <form action="http://127.0.0.1:8081/admin_user_add" method="post">
+    <div class="sub-main">
+        <button class="button-one">ADD</button>
+    </div>
+    </form>
+    <form action="http://127.0.0.1:8081/admin_user_edit" method="post">
+    <div class="sub-main">
+        <button class="button-two"><span>EDIT</span></button>
+    </div>
+    </form>
+    <form action="http://127.0.0.1:8081/admin_user_delete" method="post">
+    <div class="sub-main">
+        <button class="button-three">DELETE</button>
+    </div>
+    </form>
+    <% if(typeof string!= "undefined"){ if(string == "add"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_add_one" method="post">
+    <div class="sub-main2">
+        <button class="button-one">ADD ONE</button>
+    </div>
+    </form>
+    <form action="http://127.0.0.1:8081/admin_user_add_more" method="post">
+    <div class="sub-main2">
+        <button class="button-two"><span>ADD MORE</span></button>
+    </div>
+    </form>
+    <% } else if(string=="edit"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_edit_one" method="post">
+    <div class="sub-main3">
+        <button class="button-one">EDIT ONE</button>
+    </div>
+    </form>
+    <form action="http://127.0.0.1:8081/admin_user_edit_more" method="post">
+    <div class="sub-main3">
+        <button class="button-two">EDIT MORE</button>
+    </div>
+    </form>
+    <% } else if(string=="delete"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_delete_one" method="post">
+    <div class="sub-main4">
+        <button class="button-one"><span>DELETE ONE</span></button>
+    </div>
+    </form>
+    <form action="http://127.0.0.1:8081/admin_user_delete_more" method="post">
+    <div class="sub-main4">
+        <button class="button-two">DELETE MORE</button>
+    </div>
+    </form>
+    <% } } if(typeof string2!= "undefined"){ if(string2 == "add_one"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_add_one_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_add_one_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% }else if(string2 == "edit_one"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_edit_one_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_edit_one_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% }else if(string2 == "delete_one"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_delete_one_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_delete_one_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% }else if(string2 == "add_more"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_add_more_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_add_more_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% }else if(string2 == "edit_more"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_edit_more_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_edit_more_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% }else if(string2 == "delete_more"){ %>
+        <form action="http://127.0.0.1:8081/admin_user_delete_more_student" method="post">
+            <div class="sub-main2">
+                <button class="button-one">Student</button>
+            </div>
+        </form>
+        <form action="http://127.0.0.1:8081/admin_user_delete_more_faculty" method="post">
+            <div class="sub-main2">
+                <button class="button-two"><span>FACULTY</span></button>
+            </div>
+        </form>
+    <% } } if(typeof string3!= "undefined"){ if(string3 == "add_one_student"){ %>
+        <form action="http://127.0.0.1:8081/add_one_student_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to add</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td align="left">						
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Password : </label>
+                </td>
+                <td><input type="text" id="Password" class="Password" name="Password" placeholder="Password" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Department : </label>
+                </td>
+                <td>
+                    <input type="text" class="Department" id="Department" name="Department" placeholder="Department" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Section : </label>
+                </td>
+                <td>
+                    <input type="text" class="Section" id="Section" name="Section" placeholder="Section" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td align="left">	
+                    <label for="Adviser" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">Adviser:</label>
+                        <td>
+                        <select name="Adviser" id="Adviser" style="font-size:15px;">
+                              <option value="Dr.Venkatraman D">Dr.Venkatraman D</option>
+                              <option value="Dr.Madhusuhan Rao">Dr.Madhusudhan Rao</option>
+                              <option value="Dr.Swapna T R">Dr.Swapna T R</option>
+                              <option value="Dr.Nalinadevi N">Dr.Nalinadevi N</option>
+                        </select>
+                        </td>
+                </td>
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Add</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "add_one_faculty"){ %>
+        <form action="http://127.0.0.1:8081/edit_one_faculty_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to add</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td align="left">						
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Password : </label>
+                </td>
+                <td><input type="text" id="Password" class="Password" name="Password" placeholder="Password" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Department : </label>
+                </td>
+                <td>
+                    <input type="text" class="Department" id="Department" name="Department" placeholder="Department" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Add</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "add_more_student"){ %>
+        <form action="http://127.0.0.1:8081/add_more_student_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Add All</button>
+        </form>
+    <% } else if(string3 == "add_more_faculty"){ %>
+        <form action="http://127.0.0.1:8081/add_more_faculty_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Add All</button>
+        </form>
+    <% } else if(string3 == "edit_one_student"){ %>
+        <form action="http://127.0.0.1:8081/edit_one_student_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to edit</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td align="left">						
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Password : </label>
+                </td>
+                <td><input type="text" id="Password" class="Password" name="Password" placeholder="Password" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Department : </label>
+                </td>
+                <td>
+                    <input type="text" class="Department" id="Department" name="Department" placeholder="Department" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Section : </label>
+                </td>
+                <td>
+                    <input type="text" class="Section" id="Section" name="Section" placeholder="Section" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td align="left">	
+                    <label for="Adviser" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;">Adviser:</label>
+                        <td>
+                        <select name="Adviser" id="Adviser" style="font-size:15px;">
+                              <option value="Dr.Venkatraman D">Dr.Venkatraman D</option>
+                              <option value="Dr.Madhusuhan Rao">Dr.Madhusudhan Rao</option>
+                              <option value="Dr.Swapna T R">Dr.Swapna T R</option>
+                              <option value="Dr.Nalinadevi N">Dr.Nalinadevi N</option>
+                        </select>
+                        </td>
+                </td>
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Edit</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "edit_one_faculty"){ %>
+        <form action="http://127.0.0.1:8081/edit_one_faculty_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to edit</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td align="left">						
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Password : </label>
+                </td>
+                <td><input type="text" id="Password" class="Password" name="Password" placeholder="Password" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">			
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> Department : </label>
+                </td>
+                <td>
+                    <input type="text" class="Department" id="Department" name="Department" placeholder="Department" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>						
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Edit</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "edit_more_student"){ %>
+        <form action="http://127.0.0.1:8081/edit_more_student_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Edit All</button>
+        </form>
+    <% } else if(string3 == "edit_more_faculty"){ %>
+        <form action="http://127.0.0.1:8081/edit_more_faculty_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Edit All</button>
+        </form>
+    <% } else if(string3 == "delete_one_student"){ %>
+        <form action="http://127.0.0.1:8081/delete_one_student_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to delete</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Delete</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "delete_one_faculty"){ %>
+        <form action="http://127.0.0.1:8081/delete_one_faculty_submit" method="post">
+            <table width="105%" border="0" align="center" cellpadding="10" cellspacing="0" valign="middle" style="max-width:670px;background:#fff; border-radius:25px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding-right:6%;padding-left:12%;">
+            <br>
+            <br>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding:0 35px;">
+                    <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Enter the details to delete</h1>
+                    <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <label style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;"> UserName : </label></td>
+                    <td><input type="text" class="UserName" id="UserName" name="UserName" placeholder="UserName" autofocus="1" style="color:#1e1e2d; font-weight:500; margin:0;font-size:20px;font-family:'Rubik',sans-serif;" required/>
+                </td>											
+            </tr>
+            <tr>
+                <td><button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Delete</button></td>
+            </tr>
+            <tr>
+                <td style="height:40px;">&nbsp;</td>
+            </tr>
+            </table>
+        </form>
+    <% } else if(string3 == "delete_more_student"){ %>
+        <form action="http://127.0.0.1:8081/delete_more_student_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Delete All</button>
+        </form>
+    <% } else if(string3 == "delete_more_faculty"){ %>
+        <form action="http://127.0.0.1:8081/delete_more_faculty_submit" method="post" enctype="multipart/form-data">
+            <input type="file" id="myfile" name="myfile" style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;" required>
+            <button style="background:crimson;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Delete All</button>
+        </form>
+    <% } } %>
+</div>  

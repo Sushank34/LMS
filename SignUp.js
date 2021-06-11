@@ -10,13 +10,15 @@ var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var fs = require('fs');
 var nodemailer = require('nodemailer');
+var formidable = require('formidable');
+var reader = require('xlsx')
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+var url = "";
 
-var binary = require('mongodb').Binary;
+/*var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 
-app.use(fileUpload());
+app.use(fileUpload());*/
 
 
 var urlencodedParser = bodyParser.urlencoded({ extended: true })
@@ -67,6 +69,9 @@ app.post('/SignUp', urlencodedParser, function (req, res) {
         if(name=="QUERY MANAGER"){
           check=2;
         }
+        else if(name=="ADMIN"){
+          check=3;
+        }
         else{
           check = 1;
         }
@@ -74,17 +79,22 @@ app.post('/SignUp', urlencodedParser, function (req, res) {
       }
       if(check==0){
         dbo.collection("users").find(myobj).toArray(function(err, val) {
-          myobj1 = {UserName: name1, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Section:val[0].Section, Adviser:val[0].Adviser }
+          myobj1 = {UserName: name1, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Section:val[0].Section, Adviser:val[0].Adviser, Photo:'/images/user.jpg' }
         });
       }
       else if(check==1){
         dbo.collection("users").find(myobj).toArray(function(err, val) {
-          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Cader: val[0].Cader }
+          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '',Department: val[0].Department, Cader: val[0].Cader, Photo:'/images/user.jpg' }
         });
       }
       else if(check==2){
         dbo.collection("users").find(myobj).toArray(function(err, val) {
-          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '' }
+          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '', Photo:'/images/user.jpg' }
+        });
+      }
+      else if(check==3){
+        dbo.collection("users").find(myobj).toArray(function(err, val) {
+          myobj1 = {UserName: req.body.username, MailID: req.body.email, FirstName: '', LastName: '', Phone: '', Address: '', HealthBio: '', Photo:'/images/user.jpg' }
         });
       }
       dbo.collection("users").find(query).toArray(function(err, result) {
@@ -106,8 +116,9 @@ app.post('/SignUp', urlencodedParser, function (req, res) {
               });
             }
             else{
-              if(val[0].MailID.equals(req.body.email)){
-                dbo.collection("profile").updateOne(myquery, newvalues, function(err, rest) {
+              if(val[0].MailID!=req.body.email){
+                var newvalues1={ $set: {MailID: req.body.email} };
+                dbo.collection("profile").updateOne(myobj, newvalues1, function(err, rest) {
                   console.log("1 document updated");
                 });
               }
@@ -148,6 +159,9 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
       if(name1=="QUERY MANAGER"){
         check=2;
       }
+      else if(name1=="ADMIN"){
+        check=3;
+      }
       else{
         check = 1;
       }
@@ -172,6 +186,12 @@ app.post('/SignIn', urlencodedParser, function (req, res) {
         var myquery1 = { UserName: req.body.username1 }
         dbo.collection("users").updateOne(myquery1, newvalues1, function(err, val) {});
         res.render('home2_qm',{n:req.body.username1,x:0});
+        db.close();
+      }
+      else if(result[0]!=null && result[0].Count<5 && check==3){
+        var myquery1 = { UserName: req.body.username1 }
+        dbo.collection("users").updateOne(myquery1, newvalues1, function(err, val) {});
+        res.render('home2_admin',{n:req.body.username1,x:0});
         db.close();
       }
       else
@@ -253,21 +273,35 @@ app.post('/ML', urlencodedParser, function (req, res) {
 })
 
 app.post('/OD1', urlencodedParser, function (req, res) {
-  if(req.body.FromDate<req.body.ToDate){
-  MongoClient.connect(url, function(err, db) {
-    var dbo = db.db("mydb");
-    var myobj = { UserName: name1, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
-    dbo.collection("leave").insertOne(myobj, function(err, rest) {
-      console.log("1 document inserted");
-      res.render('home2',{n:name1,x:1});
-      db.close();
-      res.end();
-    });
-  })
-}  
-else{
-  res.render('od');
-}
+  if(req.body.FromDate<=req.body.ToDate){
+    if(req.body.FromDate==req.body.ToDate && req.body.FromTime<req.body.ToTime){
+      MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("mydb");
+        var myobj = { UserName: name1, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+        dbo.collection("leave").insertOne(myobj, function(err, rest) {
+          console.log("1 document inserted");
+          res.render('home2',{n:name1,x:1});
+          db.close();
+          res.end();
+        });
+      });
+    }
+    else{
+      MongoClient.connect(url, function(err, db) {
+        var dbo = db.db("mydb");
+        var myobj = { UserName: name1, LeaveType: "OD", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, EventType: req.body.EventType, ParticipationType: req.body.ParticipationType, Award: req.body.Award };
+        dbo.collection("leave").insertOne(myobj, function(err, rest) {
+          console.log("1 document inserted");
+          res.render('home2',{n:name1,x:1});
+          db.close();
+          res.end();
+        });
+      });
+    }
+  }  
+  else{
+    res.render('od');
+  }
 })
 
 app.post('/OL1', urlencodedParser, function (req, res) {
@@ -292,16 +326,19 @@ app.post('/ML1', urlencodedParser, function (req, res) {
   if(req.body.FromDate<req.body.ToDate){
   MongoClient.connect(url, function(err, db) {
     var dbo = db.db("mydb");
-    var myobj = { UserName: name1, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails };
+    var myobj = { UserName: name1, LeaveType:"ML", FromDate: req.body.FromDate, FromTime: req.body.FromTime, ToDate: req.body.ToDate, ToTime: req.body.ToTime,Faculty: req.body.faculty, Type: req.body.Type, TreatmentDetails: req.body.TreatmentDetails, Files: req.body.Files };
     dbo.collection("leave").insertOne(myobj, function(err, rest) {
       console.log("1 document inserted");
-    });
-    var file = {UserName: name1, File: binary(req.files.myFile.data)}
-    dbo.collection("files").insertOne(file, function(err, rest) {
       res.render('home2',{n:name1,x:1});
       db.close();
       res.end();
     });
+    /*var file = {UserName: name1, File: binary(req.files.myFile.data)}
+    dbo.collection("files").insertOne(file, function(err, rest) {
+      res.render('home2',{n:name1,x:1});
+      db.close();
+      res.end();
+    });*/
   }) 
 } 
 else{
@@ -463,6 +500,9 @@ app.post('/Leaveshome', function (req, res) {
   else if(check==1){
     res.render('home2_faculty',{n:name,x:0});
   }
+  else if(check==3){
+    res.render('home2_admin',{n:name,x:0});
+  }
   else{
     res.render('home2_qm',{n:name,x:0});
   }
@@ -549,7 +589,7 @@ app.post('/profileEdit', function (req, res) {
     if(check==0){
       myquery = { UserName: name1 };
     }
-    var newvalues = { $set: {  FirstName: req.body.firstname, LastName: req.body.lastname, Phone: req.body.phonenumber, Address: req.body.address, HealthBio: req.body.healthbio } };
+    var newvalues = { $set: {  FirstName: req.body.firstname, LastName: req.body.lastname, Phone: req.body.phonenumber, Address: req.body.address, HealthBio: req.body.healthbio, Photo: req.body.Photo } };
     dbo.collection("profile").updateOne(myquery, newvalues, function(err, rest) {
       console.log("1 document updated");
       //db.close();
@@ -564,7 +604,7 @@ app.post('/profileEdit', function (req, res) {
       var globalVariable={
         z: result
      };
-     res.render('Profile',{profile:result});
+     res.render('Profile',{profile:result,Check:check});
      res.end();
     })
   })
@@ -588,6 +628,9 @@ app.post('/passwordChange', function (req, res) {
             }
             else if(check==1){
               res.render('home2_faculty',{n:name,x:0});
+            }
+            else if(check==3){
+              res.render('home2_admin',{n:name,x:0});
             }
             else{
               res.render('home2_qm',{n:name,x:0});
@@ -989,6 +1032,452 @@ app.post('/Queries_new_qm1', function (req, res) {
       }
     });
 
+});
+
+app.post('/uploadxls', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-4/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+      var myobj = {};
+      for(i=0;i<data.length;i++){
+        myobj = { UserName: data[i].UserName, MailID: "", Password: data[i].Password, Department: data[i].Department, Section: data[i].Section, Adviser: data[i].Adviser, Count:0 };
+        dbo.collection("users").insertOne(myobj, function(err, rest) {
+          console.log("1 document inserted");
+        });
+      }
+  });
+  res.end();
+});
+
+app.post('/Users', function (req, res) {
+  res.render('admin_users');
+});
+
+app.post('/admin_user_add', function (req, res) {
+  res.render('admin_users',{string:"add"});
+});
+
+app.post('/admin_user_edit', function (req, res) {
+  res.render('admin_users',{string:"edit"});
+});
+
+app.post('/admin_user_delete', function (req, res) {
+  res.render('admin_users',{string:"delete"});
+});
+
+app.post('/admin_user_add_one', function (req, res) {
+  res.render('admin_users',{string2:"add_one"});
+});
+
+app.post('/admin_user_edit_one', function (req, res) {
+  res.render('admin_users',{string2:"edit_one"});
+});
+
+app.post('/admin_user_delete_one', function (req, res) {
+  res.render('admin_users',{string2:"delete_one"});
+});
+
+app.post('/admin_user_add_more', function (req, res) {
+  res.render('admin_users',{string2:"add_more"});
+});
+
+app.post('/admin_user_edit_more', function (req, res) {
+  res.render('admin_users',{string2:"edit_more"});
+});
+
+app.post('/admin_user_delete_more', function (req, res) {
+  res.render('admin_users',{string2:"delete_more"});
+});
+
+app.post('/admin_user_add_one_student', function (req, res) {
+  res.render('admin_users',{string3:"add_one_student"});
+});
+
+app.post('/admin_user_add_one_faculty', function (req, res) {
+  res.render('admin_users',{string3:"add_one_faculty"});
+});
+
+app.post('/admin_user_edit_one_student', function (req, res) {
+  res.render('admin_users',{string3:"edit_one_student"});
+});
+
+app.post('/admin_user_edit_one_faculty', function (req, res) {
+  res.render('admin_users',{string3:"edit_one_faculty"});
+});
+
+app.post('/admin_user_delete_one_student', function (req, res) {
+  res.render('admin_users',{string3:"delete_one_student"});
+});
+
+app.post('/admin_user_delete_one_faculty', function (req, res) {
+  res.render('admin_users',{string3:"delete_one_faculty"});
+});
+
+app.post('/admin_user_add_more_student', function (req, res) {
+  res.render('admin_users',{string3:"add_more_student"});
+});
+
+app.post('/admin_user_add_more_faculty', function (req, res) {
+  res.render('admin_users',{string3:"add_more_faculty"});
+});
+
+app.post('/admin_user_edit_more_student', function (req, res) {
+  res.render('admin_users',{string3:"edit_more_student"});
+});
+
+app.post('/admin_user_edit_more_faculty', function (req, res) {
+  res.render('admin_users',{string3:"edit_more_faculty"});
+});
+
+app.post('/admin_user_delete_more_student', function (req, res) {
+  res.render('admin_users',{string3:"delete_more_student"});
+});
+
+app.post('/admin_user_delete_more_faculty', function (req, res) {
+  res.render('admin_users',{string3:"delete_more_faculty"});
+});
+
+app.post('/add_one_student_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myobj = { UserName: req.body.UserName, MailID: "", Password: req.body.Password, Department: req.body.Department, Section: req.body.Section, Adviser: req.body.Adviser, Count:0 };
+    dbo.collection("users").insertOne(myobj, function(err, rest) {
+      console.log("1 document inserted");
+    });
+    res.render('admin_users');
+  });
+});
+
+app.post('/add_one_faculty_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myobj = { UserName: req.body.UserName, MailID: "", Password: req.body.Password, Department: req.body.Department, Count:0 };
+    dbo.collection("users").insertOne(myobj, function(err, rest) {
+      console.log("1 document inserted");
+    });
+    res.render('admin_users');
+ });
+});
+
+app.post('/edit_one_student_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var newvalues = { $set: {Password: req.body.Password, Department: req.body.Department, Section: req.body.Section, Adviser: req.body.Adviser, Count:0 } };
+    var myquery = { UserName: req.body.UserName };
+    dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
+      console.log("1 document edited");
+    });
+    res.render('admin_users');
+  });
+});
+
+app.post('/edit_one_faculty_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var newvalues = { $set: {Password: req.body.Password, Department: req.body.Department, Count:0 } };
+    var myquery = { UserName: req.body.UserName };
+    dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
+      console.log("1 document edited");
+    });
+    res.render('admin_users');
+  });
+});
+
+app.post('/delete_one_student_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = { UserName: req.body.UserName };
+    dbo.collection("users").deleteOne(myquery, function(err, rest) {
+      console.log("1 document deleted");
+    });
+    res.render('admin_users');
+  });
+});
+
+app.post('/delete_one_faculty_submit', function (req, res) {
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = { UserName: req.body.UserName };
+    dbo.collection("users").deleteOne(myquery, function(err, rest) {
+      console.log("1 document deleted");
+    });
+    res.render('admin_users');
+  });
+});
+
+app.post('/add_more_student_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myobj = {};
+    for(i=0;i<data.length;i++){
+      myobj = { UserName: data[i].UserName, MailID: "", Password: data[i].Password, Department: data[i].Department, Section: data[i].Section, Adviser: data[i].Adviser, Count:0 };
+      dbo.collection("users").insertOne(myobj, function(err, rest) {
+        console.log("1 document inserted");
+      });
+    }
+  });
+  res.render('admin_users');
+});
+
+app.post('/add_more_faculty_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myobj = {};
+    for(i=0;i<data.length;i++){
+      myobj = { UserName: data[i].UserName, MailID: "", Password: data[i].Password, Department: data[i].Department, Count:0 };
+      dbo.collection("users").insertOne(myobj, function(err, rest) {
+        console.log("1 document inserted");
+      });
+    }
+  });
+  res.render('admin_users');
+});
+
+app.post('/edit_more_student_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var newvalues = {};
+    var myquery = {};
+    for(i=0;i<data.length;i++){
+      var newvalues = { $set: {Password: data[i].Password, Department: data[i].Department, Section: data[i].Section, Adviser: data[i].Adviser, Count:0 } };
+      var myquery = { UserName: data[i].UserName };
+      dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
+        console.log("1 document edited");
+      });
+    }
+  });
+  res.render('admin_users');
+});
+
+app.post('/edit_more_faculty_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var newvalues = {};
+    var myquery = {};
+    for(i=0;i<data.length;i++){
+      newvalues = { $set: {Password: data[i].Password, Department: data[i].Department, Count:0 } };
+      myquery = { UserName: data[i].UserName };
+      dbo.collection("users").updateOne(myquery, newvalues, function(err, rest) {
+        console.log("1 document edited");
+      });
+    }
+  });
+  res.render('admin_users');
+});
+
+app.post('/delete_more_student_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = {};
+    for(i=0;i<data.length;i++){
+      myquery = { UserName: data[i].UserName };
+      dbo.collection("users").deleteOne(myquery, function(err, rest) {
+        console.log("1 document deleted");
+      });
+    }
+  });
+  res.render('admin_users');
+});
+
+app.post('/delete_more_faculty_submit', function (req, res) {
+  var form = new formidable.IncomingForm();
+    var filename="";
+    let data = []
+    form.parse(req, function (err, fields, files) {
+      var oldpath = files.myfile.path;
+      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      fs.rename(oldpath, newpath, function (err) {
+          if (err) throw err;
+      });
+      filename = "./"+files.myfile.name;
+      for(i=0;i<10000;i++){
+          for(j=0;j<10000;j++){}
+      }
+      var file = reader.readFile(filename)
+
+    
+      const sheets = file.SheetNames
+    
+      for(let i = 0; i < sheets.length; i++)
+      {
+      const temp = reader.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]])
+      temp.forEach((res) => {
+          data.push(res)
+      })
+      }
+    });
+  MongoClient.connect(url, function(err, db) {
+    var dbo = db.db("mydb");
+    var myquery = {};
+    for(i=0;i<data.length;i++){
+      myquery = { UserName: data[i].UserName };
+      dbo.collection("users").deleteOne(myquery, function(err, rest) {
+        console.log("1 document deleted");
+      });
+    }
+  });
+  res.render('admin_users');
 });
 
 var server = app.listen(8081, function () {});

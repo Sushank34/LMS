@@ -3,9 +3,13 @@
    <button href="#" style="position:absolute; height:70px;width:60px;background-color:#c8dd7e; color: black; font-size:30px; left:0px;top:0px; border-radius: 0px 0px 30px 0px;" class="previous round" onclick="goBack()">&#8249;</button>
    <form action="http://127.0.0.1:8081/profileChange" method="post">
    <button style="position:absolute; height:50px;width:70px; font-weight: bold; border-color:crimson;background-color: #c8dd7e; color: black;right:40px;top:10px;border-radius: 15px;" >Edit</button>
-   </form>>
+   </form>
    <div class="pCard_card">
-      <div class="pCard_up">
+      <% if(profile[0].Photo.length===""){ %>
+         <div class="pCard_up" style="background-image: url(/images/users.jpg);">
+            <% } else{ %>
+      <div class="pCard_up" style="background-image: url(<%=profile[0].Photo%>);">
+         <% } %>
          <div class="pCard_text" name="pCard_text" id="pCard_text">
             <h2 style="color:black;"><%=profile[0].FirstName%></h2>
             <p style="color:black"><%=profile[0].UserName%></p>

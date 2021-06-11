@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="/css/home2.css">
+    <header>
+      <div class="logo"><h1>LMS</h1></div>
+      <div class="toggle"></div>
+      <div class="navigation">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><form id="myform1" method="post" action="http://127.0.0.1:8081/profile"></form></li>
+          <li><a onclick="document.getElementById('myform1').submit();">Profile</a></li>
+          <!--<li><a href="/html/Profile_uneditable.html">Profile</a></li>-->
+          <!--<li><a href="/views/leaves_applied.ejs">Leaves applied</a></li>-->
+          <!--<li><form id="myform" method="post" action="http://127.0.0.1:8081/OD"></form></li>
+          <li><a onclick="document.getElementById('myform').submit();">Apply Leave</a></li>-->
+          <li><form id="myform5" method="post" action="http://127.0.0.1:8081/Users"></form></li>
+          <li><a onclick="document.getElementById('myform5').submit();">Users(Add/Edit/Delete)</a></li>
+          <li><form id="myform3" method="post" action="http://127.0.0.1:8081/searchUser"></form></li>
+          <li><a onclick="document.getElementById('myform3').submit();">Search User</a></li>
+          <!--<li><form id="myform4" method="post" action="http://127.0.0.1:8081/querieslist"></form></li>
+          <li><a onclick="document.getElementById('myform4').submit();">Queries List</a></li>-->
+          <li><form id="myform4" method="post" action="http://127.0.0.1:8081/Querypage"></form></li>
+          <li><a onclick="document.getElementById('myform4').submit();">Queries</a></li>
+          <!--<li><a href="/html/queries_student.html">Queries</a></li>-->
+          <li><a href="../html/faq.html">Faq (Felix-a query bot)</a></li>
+        </ul>
+      </div>
+    </header>
+    <!-- home -->
+    <section class="home" id="home">
+      <img
+        src="https://i2.wp.com/lighttravelaction.com/wp-content/uploads/sites/11/2019/03/lighttravelaction-Holi-screensaver-freebie-wallpaper-motivational-quote.png?fit=768%2C576&ssl=1"
+        class="home-img"
+        alt=""
+      />
+      <div class="home-content">
+        <h2>
+           Hi, <span class="highlight"><script>document.write("<%=n%>")</script></span><br />
+        </h2>
+        <p>
+          Use the side-bar to navigate and get the data you want or you can sign out by using the below button.
+        </p>
+        <!--<a href="#services" class="btn">Sign out</a>-->
+        <form action="http://127.0.0.1:8081/SignOut" method="post">
+          <button class="btn">Sign Out</button>
+        </form>
+      </div>
+    </section>
+<script src="/js/home2.js"></script>
+<p id="user1"><%=x%></p>
+<script>
+  if(document.getElementById('user1').innerHTML=='1')
+    {
+        alert("Leave Request Successful");
+    }
+</script>
