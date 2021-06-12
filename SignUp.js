@@ -14,8 +14,7 @@ var formidable = require('formidable');
 var reader = require('xlsx')
 //app.use(express.static("public"));
 //app.use(express.static(__dirname + '/public'));
-var url = "mongodb+srv://frost:frost@cluster0.awf2e.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
+var url = "";
 /*var binary = require('mongodb').Binary;
 var fileUpload = require('express-fileupload'); 
 app.use(fileUpload());*/
@@ -365,7 +364,7 @@ app.post('/OTPSend', function (req, res) {
           service: 'gmail',
           auth: {
             user: 'project18141@gmail.com',
-            pass: 'admin141$'
+            pass: '141$admin'
           }
         });
         
@@ -682,6 +681,7 @@ app.post('/query_send', function (req, res) {
         else{
           newvalues = { $set: {Message: change } };
         }
+        console.log(newvalues)
         dbo.collection("queries").updateOne(myquery, newvalues, function(err, rest) {
           console.log("1 document inserted");
         });
@@ -753,6 +753,7 @@ app.post('/query_send', function (req, res) {
         }
       });
       dbo.collection("queries").find(myquery).toArray(function(err, result) {
+        console.log(result);
         if(result[0]!=null){
           var s = result[0].Message;
           var c = 0;
@@ -1034,45 +1035,6 @@ app.post('/Queries_new_qm1', function (req, res) {
 
 });
 
-app.post('/uploadxls', function (req, res) {
-  var form = new formidable.IncomingForm();
-    var filename="";
-    let data = []
-    form.parse(req, function (err, fields, files) {
-      var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-4/' + files.myfile.name;
-      fs.rename(oldpath, newpath, function (err) {
-          if (err) throw err;
-      });
-      filename = "./"+files.myfile.name;
-      for(i=0;i<10000;i++){
-          for(j=0;j<10000;j++){}
-      }
-      var file = reader.readFile(filename)
-    
-      const sheets = file.SheetNames
-    
-      for(let i = 0; i < sheets.length; i++)
-      {
-      const temp = reader.utils.sheet_to_json(
-              file.Sheets[file.SheetNames[i]])
-      temp.forEach((res) => {
-          data.push(res)
-      })
-      }
-    });
-  MongoClient.connect(url, function(err, db) {
-    var dbo = db.db("mydb");
-      var myobj = {};
-      for(i=0;i<data.length;i++){
-        myobj = { UserName: data[i].UserName, MailID: "", Password: data[i].Password, Department: data[i].Department, Section: data[i].Section, Adviser: data[i].Adviser, Count:0 };
-        dbo.collection("users").insertOne(myobj, function(err, rest) {
-          console.log("1 document inserted");
-        });
-      }
-  });
-  res.end();
-});
 
 app.post('/Users', function (req, res) {
   res.render('admin_users');
@@ -1236,7 +1198,7 @@ app.post('/add_more_student_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
@@ -1277,7 +1239,7 @@ app.post('/add_more_faculty_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
@@ -1318,7 +1280,7 @@ app.post('/edit_more_student_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
@@ -1361,7 +1323,7 @@ app.post('/edit_more_faculty_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
@@ -1404,7 +1366,7 @@ app.post('/delete_more_student_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
@@ -1445,7 +1407,7 @@ app.post('/delete_more_faculty_submit', function (req, res) {
     let data = []
     form.parse(req, function (err, fields, files) {
       var oldpath = files.myfile.path;
-      var newpath = 'C:/Users/Prathish/OneDrive/Documents/sem-6/Software Engineering/Project-5/' + files.myfile.name;
+      var newpath = 'new file position' + files.myfile.name;
       fs.rename(oldpath, newpath, function (err) {
           if (err) throw err;
       });
